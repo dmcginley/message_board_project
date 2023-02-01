@@ -1,10 +1,10 @@
 from django import forms
-# from taggit.forms import TagWidget
+from taggit.forms import TagWidget
 from django.contrib.auth.models import User
 # from importlib.resources import contents
 
 from .models import Post, Comment
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 
 
 class PostForm(forms.ModelForm):

@@ -1,0 +1,17 @@
+{% extends 'board_app/base.html' %}
+{% block title %}- {{ post.title }}{% endblock %}
+
+
+{% block content %}
+<section>
+    <section class="section pb-0">
+        <h2 class="subtitle is-2">#{{ tag|title }}</h2>
+    </section>
+    {% include 'board_app/components/post_list_elements_tag.html' %}
+</section>
+<aside class="aside">
+    <div class="aside-posts">
+        {% sidebar_tag_cloud %}
+    </div>
+</aside>
+{% endblock content %}

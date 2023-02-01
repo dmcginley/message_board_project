@@ -1,4 +1,4 @@
-#!/home/donnchadh/Django_projects/message_board2023/message_board_project/venv/bin/python
+#!/home/donnchadh/Django_projects/message_board2023/message_board_project/venv/bin/python3.9
 # -*- coding: utf-8 -*-
 import re
 import sys

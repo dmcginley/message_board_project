@@ -1,0 +1,13 @@
+{% extends 'board_app/base.html' %}
+{% block title %}- {{ post.title }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h3 class="subtitle is-3">Delete article <strong>{{ post.title }}</strong>?</h3>
+
+    <form class="mt-6" id="form" method="post">
+        {% csrf_token %}
+        <button class="button is-success mt-2" type="submit">Delete</button>
+    </form>
+</section>
+{% endblock content %}

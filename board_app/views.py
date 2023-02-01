@@ -22,14 +22,17 @@ class PostListView(ListView):
 
     # def get_template_names(self):
     #     if self.request.htmx:
-    #         return 'blog_app/components/post_list_elements.html'
-    #     return 'blog_app/index.html'
+    #         return 'board_app/components/post_list_elements.html'
+    #     return 'board_app/index.html'
 
 
 class PostDetailView(DetailView):
     model = Post
 
 
+# --------------------------------
+#   post views
+# --------------------------------
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
@@ -68,6 +71,10 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+# --------------------------------
+#   comment views
+# --------------------------------
+
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
@@ -85,9 +92,34 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return reverse('post_detail', kwargs={'slug': self.object.post.slug})
 
 
-# ------------------------------
+# --------------------------------
+#   tag views
+# --------------------------------
+class TagListView(ListView):
+    model = Post
+    paginate_by = 4
+
+    context_object_name = "posts"
+
+    template_name = "board_app/tag_page.html"
+
+    def get_queryset(self):
+        return Post.objects.filter(tags__slug__in=[self.kwargs["tag"]])
+
+    # def get_template_names(self):
+    #     # if self.request.htmx:
+    #     #     return 'blog_app/components/post_list_elements_tag.html'
+    #     # return 'board_app/tag_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TagListView, self).get_context_data(**kwargs)
+        context["tag"] = self.kwargs["tag"]
+        return context
+
+
+# --------------------------------
 #   error views: 400, 403, 404, & 500
-# ------------------------------
+# --------------------------------
 def bad_request(request, *args, **argv):
     return render(request, 'board_app/error400.html', status=400)
 

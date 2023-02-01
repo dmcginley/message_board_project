@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'board_app.apps.BoardAppConfig',
+    'profile_app.apps.ProfileAppConfig',
     'taggit',
     'crispy_forms',
     "crispy_bulma",
@@ -78,7 +79,7 @@ TEMPLATES = [
             ],
 
             "builtins": [
-                # "board_app.templatetags.tag_cloud",
+                "board_app.templatetags.tag_cloud",
                 "crispy_forms.templatetags.crispy_forms_tags",
                 "crispy_forms.templatetags.crispy_forms_field",
             ]

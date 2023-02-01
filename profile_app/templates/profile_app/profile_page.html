@@ -1,0 +1,22 @@
+{% extends 'board_app/base.html' %}
+
+{% block content %}
+<section class="section">
+    <h3 class="subtitle is-3">Profile page of {{user.username}}</h3>
+    <p>{{ user.bio }}</p>
+    <p>{{ user.username.post }}</p>
+
+    <div class="columns">
+        <div class="column">
+            <figure class="image is-128x128">
+                <img class="is-rounded" src="{{ user.profile.image.url }}" height="200" alt="">
+            </figure>
+        </div>
+        <div class="column">
+            <p>email: {{ user.email }}</p>
+
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus ipsa possimus velit!</p>
+        </div>
+    </div>
+</section>
+{% endblock content %}
