@@ -30,7 +30,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['https://railway.app/',
-                 'https://web-production-9d71.up.railway.app/', '127.0.0.1']
+                 'web-production-9d71.up.railway.app/', '127.0.0.1']
 
 # Application definition
 
