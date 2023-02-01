@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block extra_head %}
+    {% endblock %}
+
+
+    <!-- bulma cdn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- my css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/navbar.css' %}">
+    <title>Blog - {% block head_title %}{% endblock %}
+    </title>
+
+  </head>
+
+  <body class="">
+    {% include 'board_app/components/navbar.html' %}
+
+    <div class="">
+
+      <!-- {% if messages %}
+      <div>
+        <strong>Messages:</strong>
+        <ul>
+          {% for message in messages %}
+          <li>{{message}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %} -->
+      <div class="form-grid">
+
+        {% block content %}{% endblock content %}
+      </div>
+
+      {% block extra_body %}
+      {% endblock extra_body %}
+
+    </div>
+  </body>
+
+</html>

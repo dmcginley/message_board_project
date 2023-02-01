@@ -1,0 +1,23 @@
+{% for post in posts %}
+{% if forloop.last %}
+<section class="section post-container post-container-index pb-5" hx-trigger="revealed"
+    hx-get="{{ request.path }}?page={{ page_obj.number|add:1 }}" hx-swap="afterend">
+    {% else %}
+    <section class="section post-container post-container-index pb-5">
+        {% endif %}
+        <a href="{{ post.get_absolute_url }}">
+            <h2 class="subtitle is-2 article-title-link">{{ post.title }}</h2>
+        </a>
+        <h4 class="subtitle">{{ post.subtitle }}</h4>
+        <p> {{ post.content.html|safe}}</p>
+        <div class="post-footer">
+            <p>[Author] {{ post.author }}</p>
+            <p>{{ post.date_posted|date:'d-M-Y H:ia' }}</p>
+            {% for tag in post.tags.all %}
+            <a class="has-text-weight-bold" href="{% url 'tag_post_page' tag.slug %}">
+                <p>#{{ tag.name }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}

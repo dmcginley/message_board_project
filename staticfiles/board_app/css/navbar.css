@@ -1,0 +1,38 @@
+.nav-container {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: 1fr minmax(100px, 180ch) 1fr !important;
+}
+
+nav {
+    grid-column: 2/-2;
+}
+
+.navbar-menu {
+    border-radius: .25em !important;
+}
+
+.navbar-link::after {
+    /* border-bottom: 2px #4a4a4a solid !important; */
+    /* border-left: 2px #4a4a4a solid !important; */
+    border-radius: 0 !important;
+    font-size: 0.7em;
+}
+
+.navbar-link *:hover {
+    /* border-bottom: 2px #485fc7 solid !important; */
+    /* border-left: 2px #485fc7 solid !important; */
+    /* color: #485fc7 !important; */
+}
+
+
+.white-svg svg {
+    fill: white !important;
+}
+
+
+@media screen and (max-width: 1023px) {
+    .navbar-menu {
+        border-radius: 0;
+    }
+}

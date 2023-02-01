@@ -1,0 +1,232 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,700;1,400&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,400;0,700;1,400;1,600&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --is-light: #f7f7f7;
+    --bg-light: #f7f7f7;
+    --link-color: #3969c4;
+    --link-color-hover: #4a4a4a;
+}
+
+body,
+html {
+    background-color: var(--is-light);
+
+}
+
+body {
+    /* font-family: 'Hanken Grotesk', sans-serif;*/
+    /* font-family: 'Source Sans Pro', sans-serif; */
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.2rem;
+    /* background-color: var(--is-light); */
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(100px, 180ch) 1fr;
+}
+
+.sub-grid {
+    grid-column: 2;
+    display: block;
+
+}
+
+.bg-light {
+    background-color: var(--bg-light);
+}
+
+main {
+    /* background-color: #d5d6d6; */
+}
+
+aside {
+    /* background-color: rgb(207, 207, 216); */
+}
+
+h2 {
+    display: inline-block;
+}
+
+.hr {
+    background-color: #e7e7e7;
+    height: 2px;
+    width: 100%;
+    /* margin: 1em 0; */
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(60px, 70ch) 1fr;
+}
+
+.form-grid * {
+    grid-column: 2;
+}
+
+
+
+
+/* ---------------------------------------------------------------------- */
+/* typeface */
+/* ---------------------------------------------------------------------- */
+
+.title-link h2 {
+    color: var(--link-color);
+}
+
+.title-link .title-svg {
+    fill: var(--link-color);
+}
+
+.title-link h2:hover {
+    color: var(--link-color-hover);
+
+}
+
+.title-link h2:hover>.title-svg {
+    fill: var(--link-color-hover);
+}
+
+/* .title-svg:hover {
+    fill: var(--link-color) !important;
+} */
+
+/* svg:hover {
+    fill: var(--link-color-hover);
+} */
+
+/* ---------------------------------------------------------------------- */
+/* the post-footer */
+/* ---------------------------------------------------------------------- */
+.post-footer {
+    display: flex;
+    font-size: .8rem;
+}
+
+.post-footer p:not(:last-child) {
+    padding-right: 1rem;
+}
+
+.post-footer a:not(:last-child) {
+    padding-right: 1rem;
+}
+
+.post-edit-container {
+    display: block;
+    width: 100%;
+}
+
+
+
+
+/* ---------------------------------------------------------------------- */
+/* comment section */
+/* ---------------------------------------------------------------------- */
+.comment-container {}
+
+/* ---------------------------------------------------------------------- */
+/* the aside */
+/* ---------------------------------------------------------------------- */
+.post-container img {
+    width: 100%;
+}
+
+
+.post-container a {
+    display: inline-flex;
+    align-items: center;
+}
+
+
+
+.post-container-index p img:first-child {
+    height: 200px;
+    object-fit: cover;
+    object-position: 50% 30%;
+
+}
+
+
+.desktop-searchbar {
+    display: none;
+}
+
+.searchbar svg {
+    fill: #e0e0e0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* the tags */
+/* ---------------------------------------------------------------------- */
+
+.tag-container:not(:last-child) {
+    display: inline-block;
+    padding-right: 1rem;
+}
+
+.tag-container {
+    display: inline-block;
+    padding-bottom: 1rem;
+}
+
+
+@media screen and (min-width: 1023px) {
+
+    .sub-grid {
+        grid-column: 2;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+
+    }
+
+    .desktop-searchbar {
+        display: block;
+    }
+
+    .mobile-searchbar {
+        display: none;
+    }
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* the toast */
+/* ---------------------------------------------------------------------- */
+.toast-container {
+    position: fixed;
+    padding: 1em;
+    right: 0;
+    z-index: 100;
+    width: 100%;
+}
+
+
+.cart_toast-container {
+    top: 0;
+}
+
+.toast-container {
+    top: 3rem;
+}
+
+.notification.visibility,
+.toast-container.visibility {
+    display: none;
+}
+
+
+@media only screen and (min-width: 668px) {
+
+    .toast-container {
+        width: clamp(200px, 60%, 500px);
+    }
+}

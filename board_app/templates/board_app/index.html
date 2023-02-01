@@ -1,0 +1,27 @@
+{% extends 'board_app/base.html' %}
+{% block title %} - Homepage{% endblock %}
+
+
+{% block content %}
+<main>
+    <div class="mobile-searchbar">
+        {% include 'board_app/components/searchbar.html' %}
+    </div>
+    <section class="section blog-posts">
+        {% include 'board_app/components/post_list_elements.html' %}
+    </section>
+</main>
+<aside class="aside">
+    <div class="desktop-searchbar">
+        {% include 'board_app/components/searchbar.html' %}
+    </div>
+
+    <section class=aside-posts">
+
+        {% comment %}
+        <!-- {% sidebar_tag_cloud %} -->
+        {% endcomment %}
+    </section>
+</aside>
+
+{% endblock content %}

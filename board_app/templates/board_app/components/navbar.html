@@ -1,0 +1,110 @@
+<div class="nav-container px-4">
+    <nav class="navbar bg-light">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path
+                        d="M6 19H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm0-2v-1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1h2V9H4v8h2zM8 4v3h8V4H8zm0 13v3h8v-3H8zm-3-7h3v2H5v-2z" />
+                </svg>
+                <strong class="pl-1">Blog</strong>
+            </a>
+            <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navbarExampleTransparentExample" class="navbar-menu">
+            <div class="navbar-start">
+                <!-- <a class="navbar-item" href="https://bulma.io/">
+                    Home
+                </a> -->
+
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet"
+                                data-social-target="https://bulma.io" target="_blank"
+                                href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
+                                <span class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path
+                                            d="M20 22H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zm-1-2V4H5v16h14zM7 6h4v4H7V6zm0 6h10v2H7v-2zm0 4h10v2H7v-2zm6-9h4v2h-4V7z" />
+                                    </svg>
+                                </span>
+                                <span>
+                                    Featured Articles
+                                </span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button is-dark" href="{% url 'add_post' %}">
+                                <span class="icon white-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path
+                                            d="M20 2a3 3 0 0 1 3 3v2h-2v12a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-2h16v2a1 1 0 0 0 .883.993L18 20a1 1 0 0 0 .993-.883L19 19V4H6a1 1 0 0 0-.993.883L5 5v10H3V5a3 3 0 0 1 3-3h14z" />
+                                    </svg>
+                                </span>
+                                <span>Write an Article</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <div class="navbar-link">
+                        Account
+                    </div>
+                    <div class="navbar-dropdown is-boxed is-right">
+                        {% if user.is_authenticated %}
+                        <a class="navbar-item" href="{% url 'profile' %}">
+                            Profile
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="{% url 'account_logout' %}">
+                            Sign Out
+                        </a>
+                        {% else %}
+                        <a class="navbar-item" href="{% url 'account_login' %}">
+                            Sign In
+                        </a>
+                        <a class="navbar-item" href="{% url 'account_signup' %}">
+                            Sign Up
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+
+                // Get the target from the "data-target" attribute
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
+
+            });
+        });
+
+    });
+</script>
