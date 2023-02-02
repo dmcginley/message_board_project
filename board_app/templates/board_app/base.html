@@ -9,20 +9,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- htmx -->
-        <script src="https://unpkg.com/htmx.org@1.8.4"></script>
-        <!-- jQuery CDN -->
+        <script src="https://unpkg.com/htmx.org@1.8.4"
+            integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV"
+            crossorigin="anonymous"></script> <!-- jQuery CDN -->
         <script src="https://code.jquery.com/jquery-3.6.3.min.js"
             integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
         <!-- jQuery tag -->
-        <script src="{% static 'board_app/js/jQuery.tagify.min.js' %}"></script>
-        <!-- bulma cdn -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.7/jQuery.tagify.min.js"
+            integrity="sha384-ChBnWYns+QdYQmukhCcesOp7wgNTrRfc7WQQXeG54IyaurQ98fIpCi7LzzicBEHO"
+            crossorigin="anonymous"></script> <!-- bulma cdn -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+            integrity="sha384-HmYpsz2Aa9Gh3JlkCoh8kUJ2mUKJKTnkyC2Lzt8aLzpPOpnDe8KpFE2xNiBpMDou" crossorigin="anonymous">
         <!-- my css -->
         <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/navbar.css' %}">
         <!-- jQuery tag css -->
-        <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/tagify.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.7/tagify.css"
+            integrity="sha384-mLC9EnPqzsBUyprw87adQ14RNqoYROT6hIxbRuGpHY0Le9ZVg2w0uayF3QEWyoAA" crossorigin="anonymous">
         <title>Blog {% block title %}{% endblock %}</title>
     </head>
 
