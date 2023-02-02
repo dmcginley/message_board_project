@@ -15,6 +15,12 @@ class PostAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'author')
 
+
+# @admin.register(Category)
+# class CategoryAdmin(admin.ModelAdmin):
+#     list_display = ('name',)
+
+
 # @admin.register(QuillPost)
 # class QuillPostAdmin(admin.ModelAdmin):
 #     pass

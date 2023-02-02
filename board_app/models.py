@@ -8,6 +8,19 @@ from taggit.managers import TaggableManager
 from django.utils.text import slugify
 
 
+# class Category(models.Model):
+#     name = models.CharField(max_length=100)
+
+#     class Meta:
+#         verbose_name_plural = "categories"
+
+#     def __str__(self):
+#         return self.name
+
+#     def get_absolute_url(self):
+#         return reverse('/')
+
+
 class Post(models.Model):
     options = (
         ("draft", "Draft"),
@@ -23,6 +36,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="post_author")
     status = models.CharField(max_length=10, choices=options, default="draft")
+    # category = models.CharField(max_length=100, default='general')
     tags = TaggableManager()
 
     class Meta:
