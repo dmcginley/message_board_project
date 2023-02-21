@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, render
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
 from django.views.generic import ListView
+from board_app.models import Post
 # from urllib import request
 
-
-from board_app.models import Post
-from profile_app.models import Profile
+from django.contrib.auth.models import User
+# from profile_app.models import Profile
+from .forms import (
+    ProfileUpdateForm,
+    UserUpdateForm,
+)
 
 
 class ProfileListView(LoginRequiredMixin, ListView):
@@ -35,3 +38,27 @@ class ProfileListView(LoginRequiredMixin, ListView):
             'user': user
         })
         return context
+
+
+def edit_profile(request):
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(
+                request, f'Account update successful')
+            # return redirect('edit_profile')
+            return redirect('user-posts', request.user.username)
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form
+    }
+
+    return render(request, 'profile_app/edit_profile.html', context)

@@ -30,9 +30,32 @@ nav {
     fill: white !important;
 }
 
+.navbar-buttons {
+    display: flex;
+    align-items: center;
+    flex-direction: column !important;
+
+}
 
 @media screen and (max-width: 1023px) {
     .navbar-menu {
         border-radius: 0;
+    }
+
+    .navbar-buttons .button {
+        margin-bottom: 1em !important;
+    }
+}
+
+@media screen and (min-width: 1023px) {
+
+    .navbar-buttons {
+        display: flex;
+        flex-direction: row !important;
+
+    }
+
+    .navbar-buttons .button {
+        margin-right: 1em !important;
     }
 }

@@ -1,4 +1,6 @@
 <section class="section">
+
+    {% if related_items %}
     <h3 class="subtitle is-3">Related articles</h3>
     {% for post in related_items %}
     <div class="post-container post-container-index mb-5">
@@ -33,4 +35,9 @@
         </div> -->
     </div>
     {% endfor %}
+    {% else %}
+    <!-- <h3 class="is-size-6 has-text-grey">Couldn't find any related articles</h3> -->
+    {% endif %}
+
+
 </section>
