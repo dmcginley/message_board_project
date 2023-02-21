@@ -31,49 +31,26 @@
             </div>
         </div>
 
-
-        <!-- comment section -->
         <div class="comment-container mt-2">
-            {% if not post.comments.all %}
-            <p class="has-text-grey">No comments yet...</p>
-            {% else %}
-            <p class="has-text-grey">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</p>
-            {% endif %}
-            <a class="button is-success my-5" href="{% url 'add_comment' post.pk %}">Add a comment</a>
-
-            {% if not post.comments.all %}
-            {% else %}
-            <h3 class="subtitle is-3">Latest Comments</h3>
-            {% endif %}
-
-
-
-
-            {% for comment in post.comments.all %}
-            <div class="pb-5">
-                <!-- <h4 class="subtitle is-4 mb-2">{{comment.title}}</h4> -->
-                <p>{{ comment.content }}</p>
-                <!-- <p> {{ post.content.html|safe }}</p> -->
-                <div class="post-footer mt-2">
-                    <p>[Author] {{ comment.author }}</p>
-                    <p>{{ comment.date_posted|date:'d-M-Y g:ia' }}</p>
-                </div>
-            </div>
-            {% endfor %}
-
-
-
-
+            {% include 'board_app/components/comment_section.html' %}
         </div>
+
+
     </section>
 </main>
 <aside class="aside">
     <div class="desktop-searchbar">
         {% include 'board_app/components/searchbar.html' %}
     </div>
-
     <section class=aside-posts">
+        {% include 'board_app/components/author_post_list_elements.html' %}
         {% sidebar_tag_cloud %}
-    </section>
+
+        {% for post in posts %}
+        <div class="post-container post-container-index mb-5">
+            <h2 class="subtitle is-2 article-title-link">{{ post.title }}
+            </h2>
+        </div>
+        {% endfor %}
 </aside>
 {% endblock content %}

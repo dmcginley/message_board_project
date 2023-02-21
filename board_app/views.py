@@ -3,6 +3,9 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404, render
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views import generic
+from taggit.models import TaggedItem
+
 
 from .models import Post, Comment
 from django.views.generic import (
@@ -18,6 +21,7 @@ class PostListView(ListView):
 
     model = Post
     context_object_name = 'posts'
+    paginate_by = 6
     template_name = "board_app/index.html"
 
     # def get_template_names(self):
@@ -26,13 +30,24 @@ class PostListView(ListView):
     #     return 'board_app/index.html'
 
 
-class PostDetailView(DetailView):
+# class PostDetailView(DetailView):
+#     model = Post
+
+
+class PostDetailView(generic.DetailView):
     model = Post
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["related_items"] = self.object.tags.similar_objects()[:4]
+
+        return context
 
 # --------------------------------
 #   post views
 # --------------------------------
+
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
@@ -95,9 +110,11 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 # --------------------------------
 #   tag views
 # --------------------------------
+
+
 class TagListView(ListView):
     model = Post
-    paginate_by = 4
+    paginate_by = 2
 
     context_object_name = "posts"
 
@@ -115,6 +132,23 @@ class TagListView(ListView):
         context = super(TagListView, self).get_context_data(**kwargs)
         context["tag"] = self.kwargs["tag"]
         return context
+
+
+# class SimilarPosts(
+    # model = Post
+    # all_tags = instance.tags.all()
+
+    # similar_posts = instance.tags.similar_objects()
+
+    # def sim_post(request, pk):
+    # sim_post = get_object_or_404(Post, pk=pk)
+    # similar_posts = sim_post.tags.similar_objects()[:5]
+    # context = {
+    #     'sim_post':sim_post,
+    #     'similar_posts':similar_posts
+    # }
+    # return render(request, 'similar_posts.html', context)
+# )
 
 
 # --------------------------------

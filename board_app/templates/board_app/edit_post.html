@@ -12,4 +12,12 @@
         <button type="submit" class="button is-success mt-2">Update your Article</button>
     </form>
 </section>
+<script>
+    // initialize Tagify
+    var input = document.querySelector('[name=tags]'),
+        // init Tagify script on the above inputs
+        tagify = new Tagify(input, {
+            //  mixTagsInterpolator: ["[{", "}]"],
+        });
+</script>
 {% endblock content %}

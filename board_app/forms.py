@@ -18,7 +18,7 @@ class PostForm(forms.ModelForm):
             super().__init__(*args, **kwargs)
             self.fields['input'].widget.attrs.update({'class': 'input'})
         # Widgets = {
-        #     'tags': forms.input(attrs={'class': 'input'}),
+        #     'tags': forms.input(attrs={'class': 'button'}),
         # }
 
 
