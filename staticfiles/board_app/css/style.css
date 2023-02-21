@@ -31,7 +31,7 @@ body {
 
 .main-grid {
     display: grid;
-    grid-template-columns: 1fr minmax(100px, 180ch) 1fr;
+    grid-template-columns: 1fr minmax(100px, 160ch) 1fr;
 }
 
 .sub-grid {
@@ -73,12 +73,12 @@ h2 {
 }
 
 
-
+button {}
 
 /* ---------------------------------------------------------------------- */
 /* typeface */
 /* ---------------------------------------------------------------------- */
-
+.hashtag,
 .title-link h2 {
     color: var(--link-color);
 }
@@ -103,6 +103,16 @@ h2 {
 /* svg:hover {
     fill: var(--link-color-hover);
 } */
+
+
+label {
+    font-weight: 400 !important;
+}
+
+input #id_tags {
+    padding: 1em !important;
+    background-color: #3969c4;
+}
 
 /* ---------------------------------------------------------------------- */
 /* the post-footer */
@@ -175,8 +185,9 @@ h2 {
 
 .tag-container {
     display: inline-block;
-    padding-bottom: 1rem;
+    /* padding-bottom: 1rem; */
 }
+
 
 
 @media screen and (min-width: 1023px) {
@@ -196,7 +207,6 @@ h2 {
         display: none;
     }
 }
-
 
 /* ---------------------------------------------------------------------- */
 /* the toast */
@@ -229,4 +239,24 @@ h2 {
     .toast-container {
         width: clamp(200px, 60%, 500px);
     }
+}
+
+.tagwidget {
+    background-color: #ffffff;
+    border-radius: 4px;
+
+}
+
+.tagify__input:active.tagwidget {
+    border-color: #485fc7 !important;
+    outline: #cbd1eb 2px solid !important;
+}
+
+.tagwidget--focus:active {
+    border-color: #485fc7 !important;
+    outline: #cbd1eb 2px solid !important;
+}
+
+.tagify__input {
+    /* background-color: #e79ddd; */
 }
