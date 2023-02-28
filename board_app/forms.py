@@ -32,9 +32,9 @@ class CommentForm(forms.ModelForm):
     #     return super(CommentForm, self).save(*args, **kwargs)
 
 
-class SearchForm(forms.Form):
+class PostSearchForm(forms.Form):
     q = forms.CharField()
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['search'].widget.attrs.update({'class': 'input'})
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields['search'].widget.attrs.update({'class': 'input'})

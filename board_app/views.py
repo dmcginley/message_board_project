@@ -1,6 +1,9 @@
 # from django.shortcuts import render
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render
+from django.contrib import messages
+# from urllib import request
+
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import generic
@@ -13,7 +16,7 @@ from django.views.generic import (
     DetailView, UpdateView,
     DeleteView
 )
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, PostSearchForm
 
 
 class PostListView(ListView):
@@ -86,11 +89,10 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
 # --------------------------------
 #   comment views
 # --------------------------------
-
-
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
@@ -108,10 +110,26 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
 
 # --------------------------------
+#   search views
+# --------------------------------
+class PostSearchView(ListView):
+    model = Post
+    # min_length = 3
+    paginate_by = 10
+    context_object_name = "posts"
+    form_class = PostSearchForm
+    template_name = 'board_app/search.html'
+
+    def get_queryset(self):
+        form = self.form_class(self.request.GET)
+        if form.is_valid():
+            return Post.objects.filter(title__icontains=form.cleaned_data['q'])
+        return Post.objects.all()
+
+
+# --------------------------------
 #   tag views
 # --------------------------------
-
-
 class TagListView(ListView):
     model = Post
     paginate_by = 2

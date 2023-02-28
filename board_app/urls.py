@@ -7,13 +7,14 @@ from .views import (
     PostUpdateView,
     PostDeleteView,
     TagListView,
-
-    # PostSearchView,
+    PostSearchView,
 )
 
 
 urlpatterns = [
     path('', PostListView.as_view(), name='home'),
+    path('search/', PostSearchView.as_view(), name='search'),
+
     path('post/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
 
     path('add-post/', PostCreateView.as_view(), name='add_post'),
