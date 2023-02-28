@@ -18,7 +18,7 @@ from django.db.models import F
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import generic
-from taggit.models import TaggedItem
+# from taggit.models import TaggedItem
 
 
 from .models import Post, Comment, Category
