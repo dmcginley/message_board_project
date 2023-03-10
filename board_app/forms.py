@@ -20,7 +20,6 @@ class PostForm(forms.ModelForm):
         # Widgets = {
         #     'category': forms.Select(attrs={'class': 'button'}),
         # }
-
         # def clean_tags(self):
         #     """
         #     Force all tags to lowercase.
