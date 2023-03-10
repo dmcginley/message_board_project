@@ -3,7 +3,7 @@
 
 {% block content %}
 <section class="section">
-    <h3 class="subtitle is-3">Delete article <strong>{{ post.title }}</strong>?</h3>
+    <h3 class="subtitle is-3">Delete article <strong class="hashtag">{{ post.title }}</strong>?</h3>
 
     <form class="mt-6" id="form" method="post">
         {% csrf_token %}

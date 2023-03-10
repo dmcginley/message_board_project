@@ -2,23 +2,31 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 from taggit.managers import TaggableManager
 
 from django.utils.text import slugify
 
 
-# class Category(models.Model):
-#     name = models.CharField(max_length=100)
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=255, unique=True)
 
-#     class Meta:
-#         verbose_name_plural = "categories"
+    class Meta:
+        verbose_name_plural = "categories"
 
-#     def __str__(self):
-#         return self.name
+    def get_absolute_url(self):
+        return reverse('board_app:category_list', args=[self.slug])
 
-#     def get_absolute_url(self):
-#         return reverse('/')
+    def __str__(self):
+        return self.name
+
+    # def __str__(self):
+    #     return self.name
+
+    # def get_absolute_url(self):
+    #     return reverse('/')
 
 
 class Post(models.Model):
@@ -26,6 +34,12 @@ class Post(models.Model):
         ("draft", "Draft"),
         ("published", "Published"),
     )
+    category_options = Category.objects.all().values_list('name', 'name')
+    # category_options.sorted()
+    category_list = []
+
+    for item in category_options:
+        category_list.append(item)
 
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=100)
@@ -36,7 +50,10 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="post_author")
     status = models.CharField(max_length=10, choices=options, default="draft")
-    # category = models.CharField(max_length=100, default='general')
+    category = models.CharField(
+        Category, max_length=100, choices=category_list,
+        default='general')
+    like = models.ManyToManyField(User, related_name="posts")
     tags = TaggableManager()
 
     class Meta:
@@ -47,6 +64,18 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'slug': self.slug})
+
+    def get_like_url(self):
+        return reverse('posts:post_detail', kwargs={'slug': self.slug})
+
+    def get_api_like_url(self):
+        return reverse('post:api_like_post', kwargs={'slug': self.slug})
+
+    def category_name(self):
+        all = []
+        for a in self.category.all():
+            all.append(str(a))
+        return "; ".join(all)
 
     def save(self, *args, **kwargs):  # new
         if not self.slug:
@@ -59,6 +88,7 @@ class Comment(models.Model):
         Post, related_name="comments", on_delete=models.CASCADE)
     content = models.TextField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    # slug = models.SlugField(max_length=250, unique=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now, editable=False)
     status = models.BooleanField(default="True")
 
@@ -67,3 +97,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"comment by {self.author}"
+
+    def get_absolute_url(self):
+        return reverse('comment-detail', kwargs={'pk': self.pk})

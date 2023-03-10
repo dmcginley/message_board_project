@@ -1,12 +1,6 @@
 <!-- comment section -->
 <div>
-    {% if not post.comments.all %}
-    <p class="has-text-grey">No comments yet...</p>
-    {% else %}
-    <p class="has-text-grey">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</p>
-    {% endif %}
     <a class="button is-success my-5" href="{% url 'add_comment' post.pk %}">Add a comment</a>
-
     {% if not post.comments.all %}
     {% else %}
     <h3 class="subtitle is-3">Latest Comments</h3>
@@ -17,6 +11,15 @@
         <!-- <h4 class="subtitle is-4 mb-2">{{comment.title}}</h4> -->
         <p>{{ comment.content }}</p>
         <!-- <p> {{ post.content.html|safe }}</p> -->
+        {% if object.author == user %}
+        <div class="post-edit-container pt-4 pb-1">
+
+            <a class="button is-small is-danger is-outlined"
+                href="{% url 'delete_comment' post.slug  comment.id%}">Delete
+                comment</a>
+
+        </div>
+        {% endif %}
         <div class="post-footer mt-2">
             <p>[Author] {{ comment.author }}</p>
             <p>{{ comment.date_posted|date:'d-M-Y g:ia' }}</p>

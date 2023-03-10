@@ -1,9 +1,9 @@
-<section class="section tag-cloud-section">
-    <h4 class="pb-3">Top 10 Tags</h4>
+<section class="section tag-cloud-section pb-0">
+    <h4 class="pb-4">Top 10 Tags</h4>
     {% for tag in tags %}
     <!-- {{ tag.name }} -->
     <div class="tag-container tags">
-        <a class="tag is-medium is-success" href="{% url 'tag_post_page' tag.slug %}">{{ tag.name }}</a>
+        <a class="tag is-medium is-link is-light" href="{% url 'tag_post_page' tag.slug %}">{{ tag.name }}</a>
     </div>
     {% endfor %}
 

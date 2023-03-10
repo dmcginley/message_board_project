@@ -12,15 +12,18 @@
     </section>
 </main>
 <aside class="aside">
+    <!-- searchbar -->
     <div class="desktop-searchbar">
         {% include 'board_app/components/searchbar.html' %}
     </div>
-
-
-    <section class=aside-posts">
+    <!-- tags -->
+    <div class=aside-posts">
         {% sidebar_tag_cloud %}
-    </section>
-
+    </div>
+    <!-- rooms -->
+    <div class="desktop-searchbar">
+        {% include 'board_app/components/rooms.html' %}
+    </div>
 </aside>
 
 {% endblock content %}

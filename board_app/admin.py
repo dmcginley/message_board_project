@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Category
 # from .models import Post
 
 # Register your models here.
@@ -16,11 +16,15 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'author')
 
 
-# @admin.register(Category)
-# class CategoryAdmin(admin.ModelAdmin):
-#     list_display = ('name',)
+@admin.register(Category)
+class CommentCategory(admin.ModelAdmin):
+    pass
+    # list_display = ('category',)
 
+    # @admin.register(Category)
+    # class CategoryAdmin(admin.ModelAdmin):
+    #     list_display = ('name',)
 
-# @admin.register(QuillPost)
-# class QuillPostAdmin(admin.ModelAdmin):
-#     pass
+    # @admin.register(QuillPost)
+    # class QuillPostAdmin(admin.ModelAdmin):
+    #     pass

@@ -26,12 +26,13 @@
             <!-- <p>{{ user.username.post }}</p> -->
         </div>
     </div>
-    <p class="mt-3">You have <span class="fw-bold text-secondary">{{ page_obj.paginator.count }}</span>
+    <a href="{% url 'edit_profile' %}">edit profile</a>
+    <p class="mt-3">You have <span class="fw-bold text-secondary">{{ posts.paginator.count }}</span>
         posts
     </p>
 
     {% for post in posts %}
-    <div class="post-container post-container-index mb-6">
+    <div class=" post-container post-container-index mb-6">
         <a class="title-link" href="{{ post.get_absolute_url }}">
             <h2 class="subtitle is-2 article-title-link">{{ post.title }}
                 <svg class="title-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
