@@ -3,7 +3,7 @@
     {% for tag in tags %}
     <!-- {{ tag.name }} -->
     <div class="tag-container tags">
-        <a class="tag is-medium is-link is-light" href="{% url 'tag_post_page' tag.slug %}">{{ tag.name }}</a>
+        <a class="tag is-medium is-link is-light" href="{% url 'tag_post_page' tag.slug %}">{{ tag.name|title }}</a>
     </div>
     {% endfor %}
 

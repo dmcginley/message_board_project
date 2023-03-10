@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 # from django.contrib import messages
 # from urllib import request
 from django.utils.text import slugify
@@ -204,16 +206,6 @@ def category_list(request, category_slug):
     posts = Post.objects.filter(category=category)
 
     page_title = category
-
-    # page = request.GET.get('page', 1)
-    # paginator = Paginator(book, 8)
-
-    # try:
-    #     books = paginator.page(page)
-    # except PageNotAnInteger:
-    #     books = paginator.page(1)
-    # except EmptyPage:
-    #     books = paginator.page(paginator.num_pages)
 
     context = {
         'posts': posts,

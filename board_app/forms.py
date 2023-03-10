@@ -21,6 +21,16 @@ class PostForm(forms.ModelForm):
         #     'category': forms.Select(attrs={'class': 'button'}),
         # }
 
+        # def clean_tags(self):
+        #     """
+        #     Force all tags to lowercase.
+        #     """
+        #     tags = self.cleaned_data.get('tags', None)
+        #     if tags:
+        #         tags = [t.lower() for t in tags]
+
+        #     return tags
+
 
 class CommentForm(forms.ModelForm):
     class Meta:

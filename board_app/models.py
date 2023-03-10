@@ -88,7 +88,6 @@ class Comment(models.Model):
         Post, related_name="comments", on_delete=models.CASCADE)
     content = models.TextField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # slug = models.SlugField(max_length=250, unique=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now, editable=False)
     status = models.BooleanField(default="True")
 
