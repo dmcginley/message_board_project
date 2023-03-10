@@ -7,20 +7,23 @@
     <div class="mobile-searchbar">
         {% include 'board_app/components/searchbar.html' %}
     </div>
-    <section class="section blog-posts">
+    <section class="blog-posts">
         {% include 'board_app/components/post_list_elements.html' %}
     </section>
 </main>
 <aside class="aside">
+    <!-- searchbar -->
     <div class="desktop-searchbar">
         {% include 'board_app/components/searchbar.html' %}
     </div>
-
-
-    <section class=aside-posts">
+    <!-- tags -->
+    <div class=aside-posts">
         {% sidebar_tag_cloud %}
-    </section>
-
+    </div>
+    <!-- rooms -->
+    <div class="desktop-searchbar">
+        {% include 'board_app/components/rooms.html' %}
+    </div>
 </aside>
 
 {% endblock content %}

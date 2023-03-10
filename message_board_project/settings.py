@@ -44,6 +44,8 @@ CSRF_TRUSTED_ORIGINS = ["https://*.railway.app", "https://127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'board_app.apps.BoardAppConfig',
+    'profile_app.apps.ProfileAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,11 +57,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'board_app.apps.BoardAppConfig',
-    'profile_app.apps.ProfileAppConfig',
     'taggit',
     'crispy_forms',
     "crispy_bulma",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'board_app.views.categories',
             ],
 
             "builtins": [

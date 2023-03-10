@@ -1,10 +1,10 @@
 from django import forms
 from taggit.forms import TagWidget
 from django.contrib.auth.models import User
-# from importlib.resources import contents
+from importlib.resources import contents
 
-from .models import Post, Comment
-# from django.contrib.auth.forms import UserCreationForm
+from .models import Post, Comment, Category
+from django.contrib.auth.forms import UserCreationForm
 
 
 class PostForm(forms.ModelForm):
@@ -12,14 +12,23 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title',
-                  'subtitle', 'content', 'status', 'tags']
+                  'subtitle', 'category', 'content', 'status', 'tags']
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.fields['input'].widget.attrs.update({'class': 'input'})
         # Widgets = {
-        #     'tags': forms.input(attrs={'class': 'button'}),
+        #     'category': forms.Select(attrs={'class': 'button'}),
         # }
+        # def clean_tags(self):
+        #     """
+        #     Force all tags to lowercase.
+        #     """
+        #     tags = self.cleaned_data.get('tags', None)
+        #     if tags:
+        #         tags = [t.lower() for t in tags]
+
+        #     return tags
 
 
 class CommentForm(forms.ModelForm):
@@ -32,9 +41,9 @@ class CommentForm(forms.ModelForm):
     #     return super(CommentForm, self).save(*args, **kwargs)
 
 
-class SearchForm(forms.Form):
+class PostSearchForm(forms.Form):
     q = forms.CharField()
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['search'].widget.attrs.update({'class': 'input'})
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields['search'].widget.attrs.update({'class': 'input'})

@@ -29,28 +29,41 @@
                 </a>
                 {% endfor %}
             </div>
-        </div>
+            <div class="mt-2">
+                {% if not post.comments.all %}
+                <p class="has-text-grey">No comments yet...</p>
+                {% else %}
+                <p class="has-text-grey">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</p>
+                {% endif %}
 
+                {% comment %}
+                <!-- <form action="{% url 'like_post' post.slug %}" method="POST">
+                    {% csrf_token %}
+                    <button class="button is-small" type="submit" name="post_id" , value="{{ post.id }}">like</button>
+
+                    <button class=" button is-small" type="submit" name="post_id" , value="{{ post.id }}"
+                        hx-post="{% url 'like_post' post.slug  %}" hx-trigger="keyup"
+                        hx-target="like-counter">like</button>
+                    <span class="pl-2"> {{ post.like.count }}</span>
+                </form> -->
+                {% endcomment %}
+                <a class='like-btn' likes='{{ post.likes.count }}'
+                    href='{{ post.slug.get_api_like_url }}'>{{ post.likes.count }} Like</a>
+
+            </div>
+        </div>
         <div class="comment-container mt-2">
             {% include 'board_app/components/comment_section.html' %}
         </div>
-
-
     </section>
 </main>
 <aside class="aside">
     <div class="desktop-searchbar">
         {% include 'board_app/components/searchbar.html' %}
     </div>
-    <section class=aside-posts">
-        {% include 'board_app/components/author_post_list_elements.html' %}
+    <div class=aside-posts">
         {% sidebar_tag_cloud %}
-
-        {% for post in posts %}
-        <div class="post-container post-container-index mb-5">
-            <h2 class="subtitle is-2 article-title-link">{{ post.title }}
-            </h2>
-        </div>
-        {% endfor %}
+        {% include 'board_app/components/author_post_list_elements.html' %}
+    </div>
 </aside>
 {% endblock content %}

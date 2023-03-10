@@ -1,0 +1,52 @@
+<div class="section">
+    <h4 class="pb-0">Rooms</h4>
+
+    {% for category in categories %}
+    <a href="/room/{{category.slug}}" class="p-2">
+        <div class="p-4 room-hero">
+            <h3 class="subtitle is-3 hashtag mb-2">
+                {{ category.name|title }}
+            </h3>
+            <p class="subtitle">
+                The room to discuss everything {{ category.name|title }} related
+            </p>
+            {% include 'board_app/components/category_snip.html' %}
+        </div>
+        {% endfor %}
+    </a>
+    <div class="section">
+
+        {# pagination #}
+        <div class="pt-6">
+            {% if is_paginated %}
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                {% if page_obj.has_previous %}
+                <a class="pagination-previous button is-dark is-outlined" href="?page=1">First Page</a>
+                <ul class="pagination-list">
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                    {% else %}
+                    <a class="pagination-previous is-disabled" disabled href="?page=1">First Page</a>
+                    <ul class="pagination-list">
+                        {% endif %}
+                        {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li><a class="pagination-link button is-dark" href="?page={{ num }}">{{ num }}</a></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li><a class="pagination-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                    </ul>
+                    <a class="pagination-next button is-dark is-outlined"
+                        href="?page={{ page_obj.paginator.num_pages }}">Last
+                        page</a>
+                    {% else %}
+                </ul>
+                <a class="pagination-next is-disabled" disabled href="?page={{ books.paginator.num_pages }}">Last
+                    page</a>
+                {% endif %}
+            </nav>
+            {% endif %}
+        </div>
+    </div>

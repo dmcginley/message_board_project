@@ -7,8 +7,12 @@
                     <path
                         d="M6 19H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm0-2v-1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1h2V9H4v8h2zM8 4v3h8V4H8zm0 13v3h8v-3H8zm-3-7h3v2H5v-2z" />
                 </svg>
-                <strong class="pl-1">Blog</strong>
+                <strong class="pl-1">Medium</strong>
             </a>
+
+
+
+
             <div class="navbar-burger" data-target="navbarExampleTransparentExample">
                 <span></span>
                 <span></span>
@@ -18,6 +22,19 @@
 
         <div id="navbarExampleTransparentExample" class="navbar-menu">
             <div class="navbar-start">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <span class="navbar-link">
+                        Rooms
+                    </span>
+                    <div class="navbar-dropdown is-boxed">
+
+                        {% for category in categories %}
+                        <a class="navbar-item" href="/room/{{category.slug}}">
+                            {{ category.name|title }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
                 <!-- <a class="navbar-item" href="https://bulma.io/">
                     Home
                 </a> -->
@@ -28,9 +45,8 @@
                 <div class="navbar-item">
                     <div class="field is-grouped navbar-buttons">
                         <!-- <p class="control"> -->
-                        <a class="button is-fullwidth" data-social-network="Twitter" data-social-action="tweet"
-                            data-social-target="https://bulma.io" target="_blank"
-                            href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
+                        <!-- <a class="button is-fullwidth" data-social-network="Twitter" data-social-action="tweet"
+                            data-social-target="https://bulma.io" target="_blank" href="#">
                             <span class="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
                                     <path fill="none" d="M0 0h24v24H0z" />
@@ -41,7 +57,7 @@
                             <span>
                                 Featured Articles
                             </span>
-                        </a>
+                        </a> -->
                         <!-- </p> -->
                         <!-- <p class="control"> -->
                         <a class="button is-fullwidth is-dark" href="{% url 'add_post' %}">
@@ -57,6 +73,7 @@
                         <!-- </p> -->
                     </div>
                 </div>
+
                 <div class="navbar-item has-dropdown is-hoverable">
                     <div class="navbar-link">
                         Account

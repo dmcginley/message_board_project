@@ -1,19 +1,35 @@
 # from django.shortcuts import render
+from django.contrib.auth.models import User
+from rest_framework import authentication, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.urls import reverse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+# from django.contrib import messages
+# from urllib import request
+from django.utils.text import slugify
+
+from django.contrib.postgres.aggregates import ArrayAgg
+from django.db.models import F
+
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import generic
 from taggit.models import TaggedItem
 
 
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from django.views.generic import (
     ListView, CreateView,
-    DetailView, UpdateView,
-    DeleteView
+    UpdateView,
+    DeleteView,
+    RedirectView,
+    View,
 )
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, PostSearchForm
 
 
 class PostListView(ListView):
@@ -32,8 +48,6 @@ class PostListView(ListView):
 
 # class PostDetailView(DetailView):
 #     model = Post
-
-
 class PostDetailView(generic.DetailView):
     model = Post
 
@@ -86,6 +100,137 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+# TODO: not working,
+# --------------------------------
+#   like post views
+# --------------------------------
+
+
+# def like_post(self, request, slug):
+#     slug = self.kwargs.get("slug")
+#     post = get_object_or_404(Post, slug=request.POST.get('post.slug'))
+#     post.like.add(request.user)
+
+#     return HttpResponseRedirect(reverse('post_detail', kwargs={'slug': slug}))
+
+
+# class LikePostView(RedirectView):
+#     # model = Post
+#     # template_name = 'board_app/delete_post.html'
+
+#     def get_redirect_url(self, *args, **kwargs):
+#         slug = self.kwargs.get("slug")
+#         print(slug)
+#         obj = get_object_or_404(Post, slug=slug)
+#         url_ = obj.get_absolute_url()
+#         user = self.request.user
+#         if user.is_authenticated:
+#             if user in obj.like.all():
+#                 obj.like.remove(user)
+#             else:
+#                 obj.like.add(user)
+#             obj.save()
+
+#             return url_
+        # return reverse('post_detail', kwargs={'slug': slug})
+
+
+class LikePostView(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, slug=None, format=None):
+        slug = self.kwargs.get("slug")
+        obj = get_object_or_404(Post, slug=slug)
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        updated = False
+        liked = False
+        if user.is_authenticated():
+            if user in obj.likes.all():
+                liked = False
+                obj.likes.remove(user)
+            else:
+                liked = True
+                obj.likes.add(user)
+            updated = True
+        data = {
+            "updated": updated,
+            "liked": liked
+        }
+        return Response(data)
+
+
+# class LikePostView(RedirectView):
+#     model = Post
+
+#     def get_redirect_url(self, *args, **kwargs):
+#         slug = self.kwargs.get("slug")
+#         print(slug)
+#         obj = get_object_or_404(Post, slug=slug)
+#         # url_ = obj.get_absolute_url()
+#         user = self.request.user
+#         if user.is_authenticated:
+#             if user in obj.like.all():
+#                 obj.like.remove(user)
+#             else:
+#                 obj.like.add(user)
+#             obj.save()
+
+#             # return url_
+#             return reverse('post_detail', kwargs={'slug': slug})
+
+
+# --------------------------------
+#   category views
+# --------------------------------
+
+# category_options = Category.objects.all().values_list('name', 'name')
+# category_list = []
+
+# for item in category_options:
+#     category_list.append(item)
+
+
+def categories(request):
+
+    return {
+        'categories': Category.objects.all().order_by(
+            'name')
+    }
+
+
+def category_list(request, category_slug):
+
+    category = get_object_or_404(Category, slug=category_slug)
+    posts = Post.objects.filter(category=category)
+
+    page_title = category
+
+    context = {
+        'posts': posts,
+        'category': category,
+        'page_title': page_title,
+    }
+
+    return render(request, 'board_app/category_list.html', context)
+
+
+# TODO: fix list
+def category_snap_list(request, category_slug):
+
+    categories = get_object_or_404(Category, slug=category_slug)
+    posts = Post.objects.filter(categories=categories).order_by('-id')[:3]
+
+    context = {
+        'posts': posts,
+        'categories': categories,
+    }
+
+    # categories = Category.objects.prefetch_related('post_set').all()
+    return render(request, 'board_app/components/category_snip.html', context)
+
+
 # --------------------------------
 #   comment views
 # --------------------------------
@@ -107,10 +252,45 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return reverse('post_detail', kwargs={'slug': self.object.post.slug})
 
 
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = 'board_app/delete_comment.html'
+    # success_url = '/'
+
+    def test_func(self):
+        comment = self.get_object()
+        if self.request.user == comment.author:
+            return True
+        return False
+
+    def get_success_url(self):
+
+        # return reverse('post_detail', kwargs={'slug': self.object.post.slug})
+        return reverse('post_detail', kwargs={'slug': self.object.post.slug})
+
+# --------------------------------
+#   search views
+# --------------------------------
+
+
+class PostSearchView(ListView):
+    model = Post
+    # min_length = 3
+    paginate_by = 10
+    context_object_name = "posts"
+    form_class = PostSearchForm
+    template_name = 'board_app/search.html'
+
+    def get_queryset(self):
+        form = self.form_class(self.request.GET)
+        if form.is_valid():
+            return Post.objects.filter(title__icontains=form.cleaned_data['q'])
+        return Post.objects.all()
+
+
 # --------------------------------
 #   tag views
 # --------------------------------
-
 
 class TagListView(ListView):
     model = Post
@@ -134,26 +314,10 @@ class TagListView(ListView):
         return context
 
 
-# class SimilarPosts(
-    # model = Post
-    # all_tags = instance.tags.all()
-
-    # similar_posts = instance.tags.similar_objects()
-
-    # def sim_post(request, pk):
-    # sim_post = get_object_or_404(Post, pk=pk)
-    # similar_posts = sim_post.tags.similar_objects()[:5]
-    # context = {
-    #     'sim_post':sim_post,
-    #     'similar_posts':similar_posts
-    # }
-    # return render(request, 'similar_posts.html', context)
-# )
-
-
 # --------------------------------
 #   error views: 400, 403, 404, & 500
 # --------------------------------
+
 def bad_request(request, *args, **argv):
     return render(request, 'board_app/error400.html', status=400)
 

@@ -31,7 +31,7 @@ body {
 
 .main-grid {
     display: grid;
-    grid-template-columns: 1fr minmax(100px, 160ch) 1fr;
+    grid-template-columns: 1fr minmax(100px, 180ch) 1fr;
 }
 
 .sub-grid {
@@ -44,12 +44,12 @@ body {
     background-color: var(--bg-light);
 }
 
-main {
-    /* background-color: #d5d6d6; */
+.room-hero {
+    transition: 160ms;
 }
 
-aside {
-    /* background-color: rgb(207, 207, 216); */
+.room-hero:hover {
+    background-color: #e6e8f3 !important;
 }
 
 h2 {
@@ -80,8 +80,10 @@ button {}
 /* ---------------------------------------------------------------------- */
 .hashtag,
 .title-link h2 {
-    color: var(--link-color);
+    color: var(--link-color) !important;
 }
+
+
 
 .title-link .title-svg {
     fill: var(--link-color);
@@ -177,7 +179,6 @@ input #id_tags {
 /* ---------------------------------------------------------------------- */
 /* the tags */
 /* ---------------------------------------------------------------------- */
-
 .tag-container:not(:last-child) {
     display: inline-block;
     padding-right: 1rem;
@@ -259,4 +260,9 @@ input #id_tags {
 
 .tagify__input {
     /* background-color: #e79ddd; */
+}
+
+.title-link * {
+    color: var(--link-color) !important;
+
 }
