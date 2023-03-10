@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'taggit',
     'crispy_forms',
     "crispy_bulma",
-    'rest_framework',
+    # 'rest_framework',
 ]
 
 MIDDLEWARE = [
