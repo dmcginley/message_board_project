@@ -14,12 +14,26 @@ class PostForm(forms.ModelForm):
         fields = ['title',
                   'subtitle', 'category', 'content', 'status', 'tags']
 
+        labels = {
+            "title":  "title",
+            "subtitle": "subtitle",
+            "category": "category",
+            "status": "status",
+            "tags": "tags",
+        }
+
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.fields['input'].widget.attrs.update({'class': 'input'})
         # Widgets = {
         #     'category': forms.Select(attrs={'class': 'button'}),
         # }
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> 5d874d51 (feat: add search bar to most pages)
         # def clean_tags(self):
         #     """
         #     Force all tags to lowercase.
@@ -29,6 +43,10 @@ class PostForm(forms.ModelForm):
         #         tags = [t.lower() for t in tags]
 
         #     return tags
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> 5d874d51 (feat: add search bar to most pages)
 
 
 class CommentForm(forms.ModelForm):

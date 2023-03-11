@@ -1,8 +1,15 @@
 # from django.shortcuts import render
+<<<<<<< HEAD
 from django.contrib.auth.models import User
 # from rest_framework import authentication, permissions
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
+=======
+<<<<<<< Updated upstream
+=======
+from django.contrib.auth.models import User
+>>>>>>> Stashed changes
+>>>>>>> 5d874d51 (feat: add search bar to most pages)
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -100,6 +107,11 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> 5d874d51 (feat: add search bar to most pages)
 # TODO: not working,
 # --------------------------------
 #   like post views
@@ -113,6 +125,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 #     return HttpResponseRedirect(reverse('post_detail', kwargs={'slug': slug}))
 
+<<<<<<< HEAD
 
 # class LikePostView(RedirectView):
 #     # model = Post
@@ -161,6 +174,8 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 #         return Response(data)
 
 
+=======
+>>>>>>> 5d874d51 (feat: add search bar to most pages)
 # class LikePostView(RedirectView):
 #     model = Post
 
@@ -231,6 +246,10 @@ def category_snap_list(request, category_slug):
     return render(request, 'board_app/components/category_snip.html', context)
 
 
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> 5d874d51 (feat: add search bar to most pages)
 # --------------------------------
 #   comment views
 # --------------------------------
