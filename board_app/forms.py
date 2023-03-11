@@ -28,12 +28,7 @@ class PostForm(forms.ModelForm):
         # Widgets = {
         #     'category': forms.Select(attrs={'class': 'button'}),
         # }
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
 
->>>>>>> 5d874d51 (feat: add search bar to most pages)
         # def clean_tags(self):
         #     """
         #     Force all tags to lowercase.
@@ -43,10 +38,6 @@ class PostForm(forms.ModelForm):
         #         tags = [t.lower() for t in tags]
 
         #     return tags
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> 5d874d51 (feat: add search bar to most pages)
 
 
 class CommentForm(forms.ModelForm):
