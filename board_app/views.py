@@ -1,8 +1,8 @@
 # from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import authentication, permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
+# from rest_framework import authentication, permissions
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -135,30 +135,30 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # return reverse('post_detail', kwargs={'slug': slug})
 
 
-class LikePostView(APIView):
-    authentication_classes = (authentication.SessionAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+# class LikePostView(APIView):
+#     authentication_classes = (authentication.SessionAuthentication,)
+#     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, slug=None, format=None):
-        slug = self.kwargs.get("slug")
-        obj = get_object_or_404(Post, slug=slug)
-        url_ = obj.get_absolute_url()
-        user = self.request.user
-        updated = False
-        liked = False
-        if user.is_authenticated():
-            if user in obj.likes.all():
-                liked = False
-                obj.likes.remove(user)
-            else:
-                liked = True
-                obj.likes.add(user)
-            updated = True
-        data = {
-            "updated": updated,
-            "liked": liked
-        }
-        return Response(data)
+#     def get(self, request, slug=None, format=None):
+#         slug = self.kwargs.get("slug")
+#         obj = get_object_or_404(Post, slug=slug)
+#         url_ = obj.get_absolute_url()
+#         user = self.request.user
+#         updated = False
+#         liked = False
+#         if user.is_authenticated():
+#             if user in obj.likes.all():
+#                 liked = False
+#                 obj.likes.remove(user)
+#             else:
+#                 liked = True
+#                 obj.likes.add(user)
+#             updated = True
+#         data = {
+#             "updated": updated,
+#             "liked": liked
+#         }
+#         return Response(data)
 
 
 # class LikePostView(RedirectView):
