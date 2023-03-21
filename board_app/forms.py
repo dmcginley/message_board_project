@@ -1,4 +1,6 @@
 from django import forms
+from django_quill.forms import QuillFormField
+
 from taggit.forms import TagWidget
 from django.contrib.auth.models import User
 from importlib.resources import contents
@@ -8,7 +10,6 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class PostForm(forms.ModelForm):
-
     class Meta:
         model = Post
         fields = ['title',

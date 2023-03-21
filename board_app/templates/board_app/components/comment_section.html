@@ -1,6 +1,5 @@
 <!-- comment section -->
 <div>
-    <a class="button is-success my-5" href="{% url 'add_comment' post.pk %}">Add a comment</a>
     {% if not post.comments.all %}
     {% else %}
     <h3 class="subtitle is-3">Latest Comments</h3>

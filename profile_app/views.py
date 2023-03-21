@@ -1,10 +1,21 @@
 from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404, render, redirect
+from django.db.models import Count
+from django.urls import reverse
+
+from django.http import HttpResponseRedirect
 
 # from django.contrib import messages
-from django.views.generic import ListView
-from board_app.models import Post
+from django.views.generic import ListView, DetailView, DeleteView
+from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
+
+from django.views import generic
+from django.contrib import messages
+
+
+from board_app.models import Post, Comment, Category
 # from urllib import request
 # from django.urls import reverse
 
@@ -18,7 +29,7 @@ from .forms import (
 
 
 class ProfileListView(LoginRequiredMixin, ListView):
-    model = Post
+    model = User
     template_name = 'profile_app/profile_page.html'
     context_object_name = 'posts'
 
@@ -43,25 +54,6 @@ class ProfileListView(LoginRequiredMixin, ListView):
         return context
 
 
-# def edit_profile(request):
-#     # pass
-#     if request.method == 'POST':
-#         user_form = ProfileUpdateForm(request.POST, instance=request.user)
-#         # form1 = UpdateProfileForm(request.POST, instance=request.user)
-#         if user_form.is_valid:
-#             user_form.save()
-#             # form1.save()
-#             return redirect('profile')
-#     # else:
-#         # user_form = ProfileUpdateForm(instance=request.user)
-#         # form1 = UpdateProfileForm(instance=request.user)
-#         context = {
-#             'user_form': user_form,
-#             # 'form1': form1,
-#         }
-#         return render(request, 'profile_app/edit_profile.html', context)
-
-
 def edit_profile(request):
     if request.method == 'POST':
 
@@ -72,9 +64,9 @@ def edit_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            # messages.success(
-            #     request, f'Account update successful')
-            # return redirect('user-posts', request.user.username)
+            messages.success(
+                request, f'Profile update successful')
+            return redirect('edit_profile')
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -83,3 +75,51 @@ def edit_profile(request):
         'profile_form': profile_form
     }
     return render(request, 'profile_app/edit_profile.html', context)
+
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    slug_field = 'username'
+
+    template_name = 'profile_app/delete_user.html'
+
+    success_url = '/profile/crm/'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+class CrmListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = User
+    template_name = 'profile_app/crm_page.html'
+    ordering = ('-date_joined',)  # or 'last_login'
+    context_object_name = 'users'
+    paginate_by = 4
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['categories'] = Category.objects.all
+    #     return context
+
+
+class CrmUserView(DetailView):
+    model = User
+    slug_field = 'username'
+
+    template_name = 'profile_app/user_crm_page.html'
+
+    # add these methods to display posts
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.filter(author=self.object)
+        context['comments'] = Comment.objects.filter(author=self.object)
+        return context
+
+    # def get_queryset(self):
+    #     qs = super().get_queryset()
+    #     qs = qs.filter(author=self.object)
+    #     return qs
+    # context_object_name = 'users'

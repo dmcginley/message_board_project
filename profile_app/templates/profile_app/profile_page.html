@@ -6,31 +6,46 @@
         <h2 class="subtitle is-2 mb-6">My Profile</h2>
     </div>
 
-    <div class="columns mb-6">
-        <div class="column is-4">
-            <figure class="image container is-128x128 mb-4">
-                <img class="is-rounded" src="{{ user.profile.image.url }}" height="200" alt="">
-            </figure>
-        </div>
-        <div class="column is-6">
-            <p class="has-text-grey">Username: {{user.username}}</p>
-            <p class="has-text-grey">Email: {{ user.email }}</p>
-
-            <!-- <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus ipsa possimus velit!</p> -->
-            {% if user.profile.bio %}
-            <div class="mt-4 p-4 card">
-                <h4 class="subtitle is-6 mb-2">BIO:</h4>
-                <p class="is-size-6">{{ user.profile.bio }}</p>
+    <div class="card mb-6">
+        <div class="card-content">
+            <div class="media">
+                <div class="media-center">
+                    <figure class="image container is-128x128 mr-5">
+                        <img class="is-rounded" src="{{ user.profile.image.url }}" height="200" alt="">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <p class="title is-4">{{ user }}</p>
+                    <!-- <span class="subtitle is-6">user id: {{ user.id }}</span> -->
+                    <p class="subtitle is-6"><a href="#">{{ user.email }}</a></p>
+                    <!-- <p>{{ posts.count }} posts | {{ comments.count }} comment</p> -->
+                    <p>{{ posts.count }} posts</p>
+                </div>
             </div>
-            {% endif %}
-            <!-- <p>{{ user.username.post }}</p> -->
-        </div>
-    </div>
-    <a href="{% url 'edit_profile' %}">edit profile</a>
-    <p class="mt-3">You have <span class="fw-bold text-secondary">{{ posts.paginator.count }}</span>
-        posts
-    </p>
 
+            <div class="content">
+
+                <br>
+                {% if not user.profile.bio %}
+                <p class="is-5 mb-5 has-text-grey">User has no Bio</p>
+                {% else %}
+                <h6 class="is-5 mb-1">Bio:</h6>
+                <p>{{ user.profile.bio }}</p>
+                {% endif %}
+                <div class="">
+                    <!-- <p class="is-size-6 mb-0">Login last: <time>{{ user.last_login|date:'d-M-Y g:ia' }}</time></p> -->
+                    <p class="is-size-6">Date joined: <time>{{ user.date_joined|date:'d-M-Y g:ia' }}</time></p>
+                </div>
+            </div>
+        </div>
+        <footer class="card-footer">
+            <!-- <a href="#" class="card-footer-item">Save</a>
+            <a href="#" class="card-footer-item">Edit</a> -->
+            <a class="card-footer-item" href="{% url 'edit_profile' %}">edit profile</a>
+        </footer>
+    </div>
+
+    <h3 class="subtitle is-3">Posts</h3>
     {% for post in posts %}
     <div class=" post-container post-container-index mb-6">
         <a class="title-link" href="{{ post.get_absolute_url }}">

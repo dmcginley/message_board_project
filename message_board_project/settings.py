@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get("DEBUG"),
 # ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['https://railway.app/',
-#                  'web-production-9d71.up.railway.app', '127.0.0.1']
+#                  'web-production-9d71.up.railway.app', '127.0.0.1']view
 
 
 ALLOWED_HOSTS = ['https://railway.app/',
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'taggit',
     'crispy_forms',
     "crispy_bulma",
+    # 'django_quill',
 ]
 
 MIDDLEWARE = [
@@ -199,6 +200,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # temp - console.log email
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+QUILL_CONFIGS = {
+    'default': {
+        'theme': 'snow',
+        'modules': {
+            'syntax': True,
+            'toolbar': [
+                [
+                    {'header': []},
+                    'bold', 'italic', 'underline',
+
+                    'blockquote', 'code-block',
+                    {'color': []},
+                ],
+                ['image', 'link'],
+                ['clean'],
+            ]
+        }
+    }
+}
+
 
 # for AWS and storages
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')

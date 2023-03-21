@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
+from django_quill.fields import QuillField
 from taggit.managers import TaggableManager
 
 from django.utils.text import slugify
@@ -43,8 +44,9 @@ class Post(models.Model):
 
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=100)
+
+    # content = QuillField(blank=True, null=True)
     content = models.TextField(null=True)
-    # content = QuillField(null=True)
     slug = models.SlugField(max_length=250, unique=True)
     date_posted = models.DateTimeField(default=timezone.now, editable=False)
     author = models.ForeignKey(

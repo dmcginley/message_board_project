@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
 
-from django.contrib.auth.models import User
-
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -69,6 +67,7 @@ class PostDetailView(generic.DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
+
     template_name = "board_app/add_post.html"
 
     def form_valid(self, form):

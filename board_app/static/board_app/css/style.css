@@ -9,8 +9,8 @@
 }
 
 :root {
-    --is-light: #f7f7f7;
-    --bg-light: #f7f7f7;
+    --is-light: #f5f5f5;
+    --bg-light: #f5f5f5;
     --link-color: #3969c4;
     --link-color-hover: #4a4a4a;
 }
@@ -38,6 +38,18 @@ body {
     grid-column: 2;
     display: block;
 
+}
+
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .bg-light {
@@ -78,6 +90,18 @@ label {
 
 button {}
 
+#id_image::before {
+    content: 'a';
+    background-color: #be3434;
+    z-index: 100;
+    /* cursor: pointer; */
+}
+
+#id_image {
+    background-color: #c5c5c5;
+    padding: .4rem;
+}
+
 /* ---------------------------------------------------------------------- */
 /* typeface */
 /* ---------------------------------------------------------------------- */
@@ -108,7 +132,9 @@ button {}
 /* svg:hover {
     fill: var(--link-color-hover);
 } */
-
+.chat-svg-path {
+    color: #be3434 !important;
+}
 
 label {
     font-weight: 400 !important;

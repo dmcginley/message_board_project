@@ -12,6 +12,14 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['email']
 
 
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['email']
+
+
 class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:

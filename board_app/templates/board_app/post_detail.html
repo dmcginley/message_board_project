@@ -26,18 +26,54 @@
             <div class="post-footer mt-2">
                 <p>[Author] {{ post.author }}</p>
                 <p>{{ post.date_posted|date:'d-M-Y g:ia' }}</p>
-                {% for tag in post.tags.all %}
-                <a class="has-text-weight-bold" href="{% url 'tag_post_page' tag.slug %}">
-                    <p>#{{ tag.name }}</p>
-                </a>
-                {% endfor %}
             </div>
-            <div class="mt-2">
-                {% if not post.comments.all %}
-                <p class="has-text-grey">No comments yet...</p>
-                {% else %}
-                <p class="has-text-grey">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</p>
-                {% endif %}
+            <div class="post-footer mt-2 flex">
+                <span>
+                    {% if not post.comments.all %}
+                    <!-- <a class="button is-light" href="{% url 'add_comment' post.pk %}"> -->
+                    <div class="flex">
+                        <!-- comment icon -->
+                        <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M10 3h4a8 8 0 1 1 0 16v3.5c-5-2-12-5-12-11.5a8 8 0 0 1 8-8z"
+                                fill="rgba(137,137,137,1)" />
+                        </svg>
+                        <span class="has-text-grey">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}
+                        </span>
+                        <!-- heart -->
+                        <a class="ml-4 mr-1 pr-0" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0H24V24H0z" />
+                                <path
+                                    d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"
+                                    fill="rgba(137,137,137,1)" />
+                            </svg>
+                        </a>
+                        <p class="has-text-grey">{{ post.comments.count }} like{{ post.comments.count|pluralize }}
+                        </p>
+                    </div>
+                    <!-- </a> -->
+                    <!-- <p class="has-text-grey">No comments yet...</p> -->
+                    {% else %}
+                    <div class="flex">
+                        <!-- comment icon -->
+                        <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M10 3h4a8 8 0 1 1 0 16v3.5c-5-2-12-5-12-11.5a8 8 0 0 1 8-8z"
+                                fill="rgba(137,137,137,1)" />
+                        </svg>
+                        <span class="has-text-grey">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}
+                        </span>
+                    </div>
+                    {% endif %}
+                </span>
+                <span class="pl-4">
+                    {% for tag in post.tags.all %}
+                    <a class="has-text-weight-bold" href="{% url 'tag_post_page' tag.slug %}">
+                        <p>#{{ tag.name }}</p>
+                    </a>
+                    {% endfor %}
+                </span>
 
                 {% comment %}
                 <!-- <form action="{% url 'like_post' post.slug %}" method="POST">
@@ -50,12 +86,13 @@
                     <span class="pl-2"> {{ post.like.count }}</span>
                 </form> -->
                 {% endcomment %}
-                <a class='like-btn' likes='{{ post.likes.count }}'
-                    href='{{ post.slug.get_api_like_url }}'>{{ post.likes.count }} Like</a>
 
             </div>
+            <a class="button is-success mt-5" href="{% url 'add_comment' post.pk %}">
+                add a comment
+            </a>
         </div>
-        <div class="comment-container mt-2">
+        <div class="comment-container mt-4">
             {% include 'board_app/components/comment_section.html' %}
         </div>
     </section>

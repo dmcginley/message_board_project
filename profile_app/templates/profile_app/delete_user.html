@@ -1,0 +1,17 @@
+{% extends 'board_app/base.html' %}
+
+{% block content %}
+<section class="section form-centered">
+
+    <form method="post">{% csrf_token %}
+        <h2 class="subtitle is-4">Are you sure you want to delete user "{{ object }}"?</h2>
+        <p class="has-text-grey">All their posts and comments will be permanently deleted.</p>
+        {{ form }}
+        <br>
+        <input class="button is-danger" type="submit" value="Confirm">
+    </form>
+
+
+
+</section>
+{% endblock content %}
