@@ -7,16 +7,12 @@
 
     {% for comment in post.comments.all %}
     <div class="pb-5">
-        <!-- <h4 class="subtitle is-4 mb-2">{{comment.title}}</h4> -->
-        <p>{{ comment.content }}</p>
-        <!-- <p> {{ post.content.html|safe }}</p> -->
+        <p>{{ comment.content.html|safe }}</p>
         {% if object.author == user %}
         <div class="post-edit-container pt-4 pb-1">
-
             <a class="button is-small is-danger is-outlined"
                 href="{% url 'delete_comment' post.slug  comment.id%}">Delete
                 comment</a>
-
         </div>
         {% endif %}
         <div class="post-footer mt-2">

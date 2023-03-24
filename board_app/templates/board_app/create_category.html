@@ -1,0 +1,15 @@
+{% extends 'board_app/base.html' %}
+{% block title %} - New room{% endblock %}
+
+{% block content %}
+<div class="crm columns">
+    <section class="section column is-6 is-4-desktop is-offset-3 is-offset-4-desktop">
+        <h2 class="subtitle is-3">Create Room</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="button is-success mt-2" type="submit">Create</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

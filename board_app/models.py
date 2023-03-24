@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
-from django_quill.fields import QuillField
 from taggit.managers import TaggableManager
+from django_quill.fields import QuillField
+# from tinymce import models as tinymce_models
 
 from django.utils.text import slugify
 
@@ -23,11 +24,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    # def __str__(self):
-    #     return self.name
-
-    # def get_absolute_url(self):
-    #     return reverse('/')
+    def save(self, *args, **kwargs):  # new
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
 
 class Post(models.Model):
@@ -45,8 +45,9 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=100)
 
-    # content = QuillField(blank=True, null=True)
-    content = models.TextField(null=True)
+    content = QuillField(null=True)
+    # content = models.TextField(null=True)
+
     slug = models.SlugField(max_length=250, unique=True)
     date_posted = models.DateTimeField(default=timezone.now, editable=False)
     author = models.ForeignKey(
@@ -88,7 +89,9 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(
         Post, related_name="comments", on_delete=models.CASCADE)
-    content = models.TextField(null=True)
+    # content = models.TextField(null=True)
+    content = QuillField(null=True)
+
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=timezone.now, editable=False)
     status = models.BooleanField(default="True")

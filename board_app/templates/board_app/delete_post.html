@@ -2,12 +2,94 @@
 {% block title %}- {{ post.title }}{% endblock %}
 
 {% block content %}
-<section class="section">
-    <h3 class="subtitle is-3">Delete article <strong class="hashtag">{{ post.title }}</strong>?</h3>
+<div class="crm columns">
+    <section class="section column is-8-desktop is-offset-2-desktop is-6-widescreen is-offset-3-widescreen">
+        <h3 class="subtitle is-3 mb-6">Delete article?</h3>
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <div class="post-container">
+                        <div>
+                            <h2 class="subtitle is-2 has-text-weight-normal">{{ post.title }}</h2>
+                        </div>
+                        <h4 class="subtitle is-4 has-text-weight-normal">{{ post.subtitle }}</h4>
+                        <p>{{ post.content.html|safe }}</p>
+                        <div class="hr mt-5"></div>
+                        <div class="post-footer mt-2">
+                            <p>[Author] {{ post.author }}</p>
+                            <p>{{ post.date_posted|date:'d-M-Y g:ia' }}</p>
+                        </div>
+                        <div class="post-footer mt-2 flex">
+                            <span>
+                                {% if not post.comments.all %}
+                                <!-- <a class="button is-light" href="{% url 'add_comment' post.pk %}"> -->
+                                <div class="flex">
+                                    <!-- comment icon -->
+                                    <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22"
+                                        height="22">
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 3h4a8 8 0 1 1 0 16v3.5c-5-2-12-5-12-11.5a8 8 0 0 1 8-8z"
+                                            fill="rgba(137,137,137,1)" />
+                                    </svg>
+                                    <span class="has-text-grey">{{ post.comments.count }}
+                                        comment{{ post.comments.count|pluralize }}
+                                    </span>
+                                    <!-- heart -->
+                                    <a class="ml-4 mr-1 pr-0" href="#">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                            height="24">
+                                            <path fill="none" d="M0 0H24V24H0z" />
+                                            <path
+                                                d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"
+                                                fill="rgba(137,137,137,1)" />
+                                        </svg>
+                                    </a>
+                                    <p class="has-text-grey">{{ post.comments.count }}
+                                        like{{ post.comments.count|pluralize }}
+                                    </p>
+                                </div>
+                                {% else %}
+                                <div class="flex">
+                                    <!-- comment icon -->
+                                    <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22"
+                                        height="22">
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 3h4a8 8 0 1 1 0 16v3.5c-5-2-12-5-12-11.5a8 8 0 0 1 8-8z"
+                                            fill="rgba(137,137,137,1)" />
+                                    </svg>
+                                    <span class="has-text-grey">{{ post.comments.count }}
+                                        comment{{ post.comments.count|pluralize }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </span>
+                            <div class=" flex">
+                                {% for tag in post.tags.all %}
+                                <div class="pl-4">
+                                    <p class="has-text-weight-bold has-text-grey">#{{ tag.name }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
 
-    <form class="mt-6" id="form" method="post">
-        {% csrf_token %}
-        <button class="button is-success mt-2" type="submit">Delete</button>
-    </form>
-</section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <form class="mt-6" id="form" method="post">
+            {% csrf_token %}
+            <button class="button is-danger" type="submit">Delete</button>
+        </form>
+    </section>
+</div>
+
+
+
+
+
+
+</div>
 {% endblock content %}

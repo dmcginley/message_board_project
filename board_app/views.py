@@ -9,6 +9,9 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 # from django.contrib import messages
 # from urllib import request
@@ -91,6 +94,10 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Post updated successfully')
+        return super().form_valid(form)
+
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
@@ -99,10 +106,15 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
+        # if self.request.user == post.author:
+        if self.request.user == post.author or self.request.user.is_superuser:
+
             return True
         return False
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Post deleted.')
+        return super().form_valid(form)
 
 # TODO: not working,
 # --------------------------------
@@ -233,6 +245,43 @@ def category_snap_list(request, category_slug):
     # categories = Category.objects.prefetch_related('post_set').all()
     return render(request, 'board_app/components/category_snip.html', context)
 
+
+class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'board_app/create_category.html'
+    success_url = reverse_lazy('crm')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def form_valid(self, form):
+        if Category.objects.filter(name=form.cleaned_data['name']).exists():
+            messages.error(self.request, 'Room already exists.')
+            return self.form_invalid(form)
+
+        else:
+            messages.success(
+                self.request, 'Room created.')
+
+            return super().form_valid(form)
+
+
+class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Category
+    template_name = 'board_app/delete_category.html'
+    # success_url = '/'
+    success_url = reverse_lazy('crm')
+    # pk_url_kwarg = 'slug'
+    slug_field = 'slug'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Room {self.kwargs["slug"]} deleted.')
+
+        return super().form_valid(form)
 # --------------------------------
 #   comment views
 # --------------------------------
@@ -246,6 +295,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.post_id = self.kwargs['pk']
         form.instance.author = self.request.user
+        messages.success(self.request, 'Comment added to post')
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -264,6 +314,10 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == comment.author:
             return True
         return False
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Comment deleted.')
+        return super().form_valid(form)
 
     def get_success_url(self):
 

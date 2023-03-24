@@ -88,34 +88,45 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         return self.request.user.is_superuser
 
+    def form_valid(self, form):
+        messages.success(self.request, 'User deleted.')
+        return super().form_valid(form)
+
 
 class CrmListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
     template_name = 'profile_app/crm_page.html'
     ordering = ('-date_joined',)  # or 'last_login'
     context_object_name = 'users'
-    paginate_by = 4
+    paginate_by = 8
 
     def test_func(self):
         return self.request.user.is_superuser
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['categories'] = Category.objects.all
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.all
+        context['comments'] = Comment.objects.all
+        context['user_count'] = User.objects.all
+
+        return context
 
 
-class CrmUserView(DetailView):
+class CrmUserView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     slug_field = 'username'
 
     template_name = 'profile_app/user_crm_page.html'
 
+    def test_func(self):
+        return self.request.user.is_superuser
     # add these methods to display posts
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts'] = Post.objects.filter(author=self.object)
         context['comments'] = Comment.objects.filter(author=self.object)
+
         return context
 
     # def get_queryset(self):

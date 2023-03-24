@@ -2,12 +2,24 @@
 {% block title %}- {{ post.title }}{% endblock %}
 
 {% block content %}
-<section class="section">
-    <h3 class="subtitle is-3">Delete comment <strong class="hashtag">{{ comment.content }}</strong>?</h3>
-
-    <form class="mt-6" id="form" method="post">
-        {% csrf_token %}
-        <button class="button is-success mt-2" type="submit">Delete</button>
-    </form>
-</section>
+<div class="crm columns">
+    <section class="section column is-8-desktop is-offset-2-desktop is-6-widescreen is-offset-3-widescreen">
+        <h3 class="subtitle is-3 mb-6">Delete comment?</h3>
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p>{{ comment.content.html|safe }}</p>
+                    <div class="post-footer mt-2">
+                        <p>[Author] {{ comment.author }}</p>
+                        <p>{{ comment.date_posted|date:'d-M-Y g:ia' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="mt-6" id="form" method="post">
+            {% csrf_token %}
+            <button class="button is-success mt-2" type="submit">Delete</button>
+        </form>
+    </section>
+</div>
 {% endblock content %}

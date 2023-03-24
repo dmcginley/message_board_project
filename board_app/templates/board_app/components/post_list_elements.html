@@ -13,7 +13,11 @@
         </a>
 
         <h4 class="subtitle">{{ post.subtitle }}</h4>
-        <p> {{ post.content.html|safe}}</p>
+        <!-- <p>{{ post.content.html|safe }}</p> -->
+
+        <!-- <img src="" alt=""> -->
+
+        <div class="hr mt-5 mb-2"></div>
         <div class="post-footer">
             <p>[Author] {{ post.author }}</p>
             <p>{{ post.date_posted|date:'d-M-Y g:ia' }}</p>

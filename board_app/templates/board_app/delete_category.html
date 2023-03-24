@@ -1,0 +1,19 @@
+{% extends 'board_app/base.html' %}
+{% block title %} - New category{% endblock %}
+
+{% block content %}
+<div class="crm columns">
+    <section class="section column is-6 is-4-desktop is-offset-3 is-offset-4-desktop">
+        <h2 class="subtitle is-3">Are you sure you want to delete Room <strong
+                class="hashtag">{{ category.name }}</strong>?</h2>
+        <p class="has-text-grey">This action will <span class="has-text-weight-bold">Delete</span> all posts and
+            comments in
+            this room</p>
+
+        <form class="mt-6" id="form" method="post">
+            {% csrf_token %}
+            <button class="button is-danger mt-2" type="submit">Delete</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

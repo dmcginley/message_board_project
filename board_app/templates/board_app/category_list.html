@@ -12,7 +12,19 @@
 </div>
 <div class="section">
     <!-- <div style="background-color: aqua;"> -->
+
+    {% if not user.is_superuser %}
     <h2 class="subtitle is-2 mb-6"><span class="hashtag">{{ category|title }}</span> Room</h2>
+    {% else %}
+    <div class="mb-6">
+        <h2 class="subtitle is-2 mb-2"><span class="hashtag">{{ category|title }}</span> Room</h2><br>
+        <a class="has-text-danger is-underlined" href="{% url 'delete_category' slug=category.slug %}">
+            delete room
+        </a>
+    </div>
+    {% endif %}
+
+
     <!-- </div> -->
 
 

@@ -1,104 +1,170 @@
 {% extends 'board_app/base.html' %}
 
 {% block content %}
-<section class="section is-narror">
+<section class="crm section">
     <h2 class="subtitle is-2">CRM</h2>
     <p class="subtitle is-6">Customer Relationship Management</p>
 
-
-    <div>
-        <div class="card has-background-primary has-text-white-bis">
-            <div class="card-content">
-                <div class="content">
-                    <p>{{ users.count }} user accounts</p>
-                </div>
-            </div>
-
-            <!-- <p>{{ user.all.is_active }} users active</p> -->
-
-        </div>
-    </div>
-
-    <h3 class="subtitle is-3 mt-6">Rooms</h3>
-
-    {% for category in categories %}
-    <a href="/room/{{category.slug}}">
-        <div class="card mb-4 has-background-info-light has-text-info-dark">
-            <div class="card-content">
-                <div class="content">
-                    <p>{{category.name}}</p>
+    <div class="columns is-4">
+        <div class="column">
+            <div class="card stats-card has-background-link has-text-white-bis">
+                <div class="card-content">
+                    <div class="content">
+                        <p><span class="is-size-3">{{ user_count.count }}</span> user accounts</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </a>
-    {% endfor %}
-
-
-    <h3 class="subtitle is-3 mt-6">All Users</h3>
-    <div class="table-container">
-        <table class="table table is-bordered
-        table is-striped is-hoverable is-fullwidth">
-            <thead>
-                <tr class="has-background-grey-dark">
-                    <th class="has-text-white-ter">username</th>
-                    <!-- <th class="has-text-white-ter">posts</th> -->
-                    <th class="has-text-white-ter">email</th>
-                    <th class="has-text-white-ter">date joined</>
-                    <th class="has-text-white-ter">Id</th>
-                    </th>
-                </tr>
-            </thead>
-            {% for user in users %}
-            <tbody>
-                <tr>
-                    <!-- <th><a href="{% url 'user_crm' user.id %}">{{ user }}</a></th> -->
-                    <th><a href="{% url 'user_crm' user.username %}">{{ user }}</a></th>
-                    <!-- <td>{{ user.username.post.count }}</td> -->
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.date_joined|date:'d-M-Y g:ia' }}</td>
-
-                    <th>{{ user.id }}</th>
-
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
+        <div class="column">
+            <div class="card stats-card has-background-info has-text-white-bis">
+                <div class="card-content">
+                    <div class="content">
+                        <p><span class="is-size-3">{{ posts.count }}</span> posts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card stats-card has-background-warning">
+                <div class="card-content">
+                    <div class="content">
+                        <p><span class="is-size-3">{{ comments.count }}</span> comments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card stats-card has-background-primary has-text-white-bis">
+                <div class="card-content">
+                    <div class="content">
+                        <p><span class="is-size-3">{{ categories.count }}</span> rooms</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="cms-sub-grid">
+        <div>
 
-    {# pagination #}
-    <div class="pt-6">
-        {% if is_paginated %}
-        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-            {% if page_obj.has_previous %}
-            <a class="pagination-previous button is-dark is-outlined" href="?page=1">First Page</a>
-            <ul class="pagination-list">
-                <li><span class="pagination-ellipsis">&hellip;</span></li>
-                {% else %}
-                <a class="pagination-previous is-disabled" disabled href="?page=1">First Page</a>
-                <ul class="pagination-list">
-                    {% endif %}
-                    {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                    <li><a class="pagination-link button is-dark" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <li><a class="pagination-link" href="?page={{ num }}">{{ num }}</a></li>
+            <h3 class="subtitle is-3 mt-6">All Users</h3>
+            <div class="table-container">
+                <table class="table is-striped is-hoverable is-fullwidth">
+                    <thead>
+                        <tr class="has-background-grey-dark">
+                            <th></th>
+                            <th class="has-text-white-ter">username</th>
+                            <th class="has-text-white-ter">email</th>
+                            <th class="has-text-white-ter">date joined</>
+                            <th class="has-text-white-ter">Id</th>
+                            </th>
+                        </tr>
+                    </thead>
+                    {% for user in users %}
+                    {% if not user.is_superuser %}
+                    <tbody>
+                        <tr>
+                            <td>
+                                <figure class="image container is-48x48 my-1">
+                                    <img src="{{ user.profile.image.url }}" class="is-rounded" alt="">
+                                </figure>
+                            </td>
+                            <td><a href="{% url 'user_crm' user.username %}">{{ user }}</a></td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.date_joined|date:'d-M-Y g:ia' }}</td>
+                            <td>{{ user.id }}</td>
+                        </tr>
+                    </tbody>
+                    {% else %}
+                    <tbody>
+                        <tr class="admin-table-row has-background-danger-light">
+                            <td>
+                                <figure class="image container is-48x48 my-1">
+                                    <img src="{{ user.profile.image.url }}" class="is-rounded" alt="">
+                                </figure>
+                            </td>
+                            <td><a href="{% url 'user_crm' user.username %}">{{ user }}</a><span
+                                    class="has-text-danger has-text-weight-normal is-size-6">
+                                    (admin)</span></td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.date_joined|date:'d-M-Y g:ia' }}</td>
+                            <td>{{ user.id }}</td>
+                        </tr>
+                    </tbody>
                     {% endif %}
                     {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                </ul>
-                <a class="pagination-next button is-dark is-outlined"
-                    href="?page={{ page_obj.paginator.num_pages }}">Last
-                    page</a>
-                {% else %}
-            </ul>
-            <a class="pagination-next is-disabled" disabled href="?page={{ books.paginator.num_pages }}">Last
-                page</a>
-            {% endif %}
-        </nav>
-        {% endif %}
+                </table>
+            </div>
+            {# pagination #}
+            <div class="pt-6">
+                {% if is_paginated %}
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    {% if page_obj.has_previous %}
+                    <a class="pagination-previous button is-dark is-outlined" href="?page=1">First Page</a>
+                    <ul class="pagination-list">
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        {% else %}
+                        <a class="pagination-previous is-disabled" disabled href="?page=1">First Page</a>
+                        <ul class="pagination-list">
+                            {% endif %}
+                            {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                            <li><a class="pagination-link button is-dark" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li><a class="pagination-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        </ul>
+                        <a class="pagination-next button is-dark is-outlined"
+                            href="?page={{ page_obj.paginator.num_pages }}">Last
+                            page</a>
+                        {% else %}
+                    </ul>
+                    <a class="pagination-next is-disabled" disabled href="?page={{ books.paginator.num_pages }}">Last
+                        page</a>
+                    {% endif %}
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <aside class="cms-rooms">
+            <h3 class="subtitle is-3 mt-6">Rooms</h3>
+            {% for category in categories %}
+            <a href="/room/{{category.slug}}">
+                <div class="card mb-4 has-background-info-light has-text-info-dark">
+                    <div class="card-content flex">
+                        <div class="content">
+                            <p>{{category.name}}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+            <a href="{% url 'create_category'%}">
+                <div class="card mb-4 has-background-link-light has-text-link-dark">
+                    <div class="card-content">
+                        <div class="content flex-center">
+                            <span>Create new room</span>
+                            <svg class="room-plus-svg ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M11 11V7h2v4h4v2h-4v4h-2v-4H7v-2h4zm1 11C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </aside>
+
     </div>
-</section>
-{% endblock content %}
+
+
+
+    {% endblock content %}

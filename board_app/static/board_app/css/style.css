@@ -29,17 +29,93 @@ body {
     /* background-color: var(--is-light); */
 }
 
+/* do not touch */
 .main-grid {
     display: grid;
     grid-template-columns: 1fr minmax(100px, 180ch) 1fr;
 }
 
-.sub-grid {
+.sub-grid,
+.cms-sub-grid {
     grid-column: 2;
     display: block;
+    /* background-color: #be3434; */
 
 }
 
+
+.navbar {
+    z-index: 100;
+}
+
+
+
+.card-content * {
+    font-weight: normal !important;
+}
+
+
+
+tbody tr:hover {
+    background-color: #f1f1f1 !important;
+
+}
+
+tbody img {
+    padding: 0;
+}
+
+
+.admin-table-row:hover {
+    background-color: #f8e0e5 !important;
+}
+
+
+.cms-rooms .card:hover {
+    background-color: #dceaf6 !important;
+}
+
+.cms-rooms .has-background-link-light:hover {
+    background-color: #3e8ed0 !important;
+}
+
+.cms-rooms svg {
+    fill: #3850b7;
+}
+
+.cms-rooms .has-background-link-light:hover {
+    color: #e4e4e4 !important;
+    fill: #e4e4e4 !important;
+}
+
+.has-background-link-light:hover .room-plus-svg {
+    color: #e4e4e4 !important;
+    fill: #e4e4e4 !important;
+}
+
+.crm .stats-card {
+    min-height: 140px;
+}
+
+.button-disabled {
+    cursor: not-allowed;
+}
+
+
+.main-container {
+    grid-column: 1;
+    /* grid-column: 3/4; */
+}
+
+.aside {
+    grid-column: 2;
+    /* background-color: #818ec7; */
+
+}
+
+.crm {
+    grid-column: 1/3;
+}
 
 .flex {
     display: flex;
@@ -57,11 +133,13 @@ body {
 }
 
 .room-hero {
+    border-radius: .25em;
     transition: 160ms;
 }
 
-.room-hero:hover {
-    background-color: #e6e8f3 !important;
+.room-hero:hover,
+{
+background-color: #e7e9f1 !important;
 }
 
 h2 {
@@ -117,7 +195,7 @@ button {}
 }
 
 .title-link h2:hover {
-    color: var(--link-color-hover);
+    color: var(--link-color-hover) !important;
 
 }
 
@@ -219,14 +297,51 @@ input #id_tags {
 
 
 
+.tagwidget {
+    background-color: #ffffff;
+    border-radius: 4px;
+
+}
+
+.tagify__input:active.tagwidget {
+    border-color: #485fc7 !important;
+    outline: #cbd1eb 2px solid !important;
+}
+
+.tagwidget--focus:active {
+    border-color: #485fc7 !important;
+    outline: #cbd1eb 2px solid !important;
+}
+
+.title-link * {
+    color: var(--link-color) !important;
+
+}
+
+
 @media screen and (min-width: 1023px) {
 
     .sub-grid {
         grid-column: 2;
         display: grid;
         grid-template-columns: 2fr 1fr;
+        /* background-color: #be8787; */
+        /* padding: 1em; */
 
     }
+
+    .cms-sub-grid {
+        grid-column: 2;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2em;
+    }
+
+    .cms-rooms {
+        grid-column: 2/3;
+        /* background-color: #3969c4; */
+    }
+
 
     .desktop-searchbar {
         display: block;
@@ -235,7 +350,6 @@ input #id_tags {
     .mobile-searchbar {
         display: none;
     }
-
 
     .searchbar-section {
         padding-top: 3.4rem !important;
@@ -268,34 +382,55 @@ input #id_tags {
 }
 
 
-@media only screen and (min-width: 668px) {
+/* ---------------------------------------------------------------------- */
+/* quill */
+/* ---------------------------------------------------------------------- */
+p img {
+    margin: auto;
+    display: flex;
+}
 
+.ql-editor img {
+    max-width: 600px;
+    padding: 1em;
+    /* display: flex; */
+    /* justify-content: center; */
+}
+
+.ql-editor {
+    min-height: 200px;
+    font-size: 1rem;
+    background-color: #fcfcfc;
+}
+
+.comment-container h3,
+.post-container h3:not(.tags) {
+    font-size: 1.4rem;
+}
+
+.comment-container h2,
+.post-container h2:not(.tags) {
+    font-size: 1.6rem;
+}
+
+.comment-container h1,
+.post-container h1:not(.tags) {
+    font-size: 2.2rem;
+}
+
+/* .comment-container p,
+.post-container p {
+    padding: 4px;
+} */
+
+/* .ql-editor img {
+    max-width: 100px;
+    max-height: 300px;
+} */
+
+
+@media only screen and (min-width: 668px) {
     .toast-container {
         width: clamp(200px, 60%, 500px);
     }
-}
-
-.tagwidget {
-    background-color: #ffffff;
-    border-radius: 4px;
-
-}
-
-.tagify__input:active.tagwidget {
-    border-color: #485fc7 !important;
-    outline: #cbd1eb 2px solid !important;
-}
-
-.tagwidget--focus:active {
-    border-color: #485fc7 !important;
-    outline: #cbd1eb 2px solid !important;
-}
-
-.tagify__input {
-    /* background-color: #e79ddd; */
-}
-
-.title-link * {
-    color: var(--link-color) !important;
-
 }

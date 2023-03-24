@@ -59,9 +59,8 @@
                             </span>
                         </a> -->
                         <!-- </p> -->
-                        <!-- <p class="control"> -->
-                        {% if user.is_staff %}
-                        <a class="button is-fullwidth is-danger" href="{% url 'crm' %}">
+                        {% if user.is_superuser %}
+                        <a class="button is-fullwidth is-warning" href="{% url 'crm' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                 class="mr-2" viewBox="0 0 16 16">
                                 <path
@@ -81,7 +80,6 @@
                             </span>
                             <span>Write an Article</span>
                         </a>
-                        <!-- </p> -->
                     </div>
                 </div>
 

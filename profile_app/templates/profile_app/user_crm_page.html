@@ -1,121 +1,133 @@
 {% extends 'board_app/base.html' %}
 
 {% block content %}
-<section class="section is-narror">
 
-    <div class="card mb-6">
-        <div class="card-content">
-            <div class="media">
-                <div class="media-center">
-                    <figure class="image container is-128x128 mr-5">
-                        <img class="is-rounded" src="{{ user.profile.image.url }}" height="200" alt="">
-                    </figure>
+<div class="crm columns">
+    <section class="section column is-10 is-offset-1">
+
+        <div class="card mb-6">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-center">
+                        <figure class="image container is-128x128 mr-5">
+                            <img class="is-rounded" src="{{ user.profile.image.url }}" height="200" alt="">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-4 mb-0">{{ user }}</p>
+                        <span class="subtitle is-6">user id: {{ user.id }}</span>
+                        <p class="subtitle is-6"><a href="#">{{ user.email }}</a></p>
+                        <p>{{ posts.count }} posts | {{ comments.count }} comment</p>
+                    </div>
                 </div>
-                <div class="media-content">
-                    <p class="title is-4 mb-0">{{ user }}</p>
-                    <span class="subtitle is-6">user id: {{ user.id }}</span>
-                    <p class="subtitle is-6"><a href="#">{{ user.email }}</a></p>
-                    <p>{{ posts.count }} posts | {{ comments.count }} comment</p>
+
+                <div class="content">
+
+                    <br>
+                    {% if not user.profile.bio %}
+                    <p class="is-5 mb-5 has-text-grey">User has no Bio</p>
+                    {% else %}
+                    <h6 class="is-5 mb-1">Bio:</h6>
+                    <p>{{ user.profile.bio }}</p>
+                    {% endif %}
+                    <div class="">
+                        <p class="is-size-6 mb-0">Login last: <time>{{ user.last_login|date:'d-M-Y g:ia' }}</time></p>
+                        <p class="is-size-6">Date joined: <time>{{ user.date_joined|date:'d-M-Y g:ia' }}</time></p>
+                    </div>
                 </div>
             </div>
-
-            <div class="content">
-
-                <br>
-                {% if not user.profile.bio %}
-                <p class="is-5 mb-5 has-text-grey">User has no Bio</p>
-                {% else %}
-                <h6 class="is-5 mb-1">Bio:</h6>
-                <p>{{ user.profile.bio }}</p>
-                {% endif %}
-                <div class="">
-                    <p class="is-size-6 mb-0">Login last: <time>{{ user.last_login|date:'d-M-Y g:ia' }}</time></p>
-                    <p class="is-size-6">Date joined: <time>{{ user.date_joined|date:'d-M-Y g:ia' }}</time></p>
-                </div>
-            </div>
-        </div>
-        <footer class="card-footer">
-            <!-- <a href="#" class="card-footer-item">Save</a>
+            <footer class="card-footer">
+                <!-- <a href="#" class="card-footer-item">Save</a>
             <a href="#" class="card-footer-item">Edit</a> -->
-            <a class="card-footer-item has-text-danger" href="{% url 'delete_user' user.username %}">delete
-                user</a>
-        </footer>
-    </div>
-    <!-- <a class="button is-danger mb-5" href="{% url 'delete_user' user.username %}">delete user</a> -->
+                {% if not user.is_superuser %}
+                <a class="card-footer-item has-text-danger" href="{% url 'delete_user' user.username %}">delete
+                    user</a>
+                {% else %}
+                <span class="button-disabled card-footer-item has-text-grey-light">Admin can't be deleted</span>
+                {% endif %}
+
+            </footer>
+        </div>
+        <!-- <a class="button is-danger mb-5" href="{% url 'delete_user' user.username %}">delete user</a> -->
 
 
-    <h3 class="subtitle is-3">Posts</h3>
-    {% if not posts.all %}
-    <p>no posts</p>
-    {% else %}
-    <div class="table-container">
-        <table class="table table is-bordered
+        <h3 class="subtitle is-3">Posts</h3>
+        {% if not posts.all %}
+        <p>no posts</p>
+        {% else %}
+        <div class="table-container">
+            <table class="table table is-bordered
         table is-striped is-hoverable is-fullwidth">
-            <thead>
-                <tr class="has-background-grey-dark">
-                    <th class="has-text-white-ter">title</th>
-                    <th class="has-text-white-ter">comments</th>
-                    <th class="has-text-white-ter">tags</th>
-                    <th class="has-text-white-ter">date posted</th>
-                    <th class="has-text-white-ter">post id</th>
-                    <th class="has-text-white-ter"></th>
+                <thead>
+                    <tr class="has-background-grey-dark">
+                        <th class="has-text-white-ter">title</th>
+                        <th class="has-text-white-ter">comments</th>
+                        <th class="has-text-white-ter">tags</th>
+                        <th class="has-text-white-ter">date posted</th>
+                        <th class="has-text-white-ter">post id</th>
+                        <th class="has-text-white-ter"></th>
 
-                </tr>
-            </thead>
-            {% for post in posts %}
-            <tbody>
-                <tr>
-                    <!-- <th><a href="{% url 'user_crm' user.id %}">{{ user }}</a></th> -->
-                    <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
-                    <td>{{ post.comments.count }}</td>
-                    <td>{{ post.tags }}</td>
-                    <td>{{ post.date_posted|date:'d-M-Y g:ia' }}</td>
-                    <td>{{ post.id }}</td>
-                    <td><a class="button flex is-danger is-outlined is-small"
-                            href="{% url 'delete_post' post.slug %}">delete
-                            post</a></td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+                    </tr>
+                </thead>
+                {% for post in posts %}
+                <tbody>
+                    <tr>
+                        <!-- <th><a href="{% url 'user_crm' user.id %}">{{ user }}</a></th> -->
+                        <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+                        <td>{{ post.comments.count }}</td>
+                        <td>{{ post.tags }}</td>
+                        <td>{{ post.date_posted|date:'d-M-Y g:ia' }}</td>
+                        <td>{{ post.id }}</td>
+                        <td><a class="button flex is-danger is-outlined is-small"
+                                href="{% url 'delete_post' post.slug %}">delete
+                                post</a></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
 
 
 
-    <h3 class="subtitle is-3 mt-5">Comments</h3>
-    {% if not comments.all %}
-    <p>no comments</p>
-    {% else %}
-    <div class="table-container">
-        <table class="table table is-bordered
+        <h3 class="subtitle is-3 mt-5">Comments</h3>
+        {% if not comments.all %}
+        <p>no comments</p>
+        {% else %}
+        <div class="table-container">
+            <table class="table table is-bordered
         table is-striped is-hoverable is-fullwidth">
-            <thead>
-                <tr class="has-background-grey-dark">
-                    <th class="has-text-white-ter">comment</th>
-                    <th class="has-text-white-ter">post</th>
-                    <th class="has-text-white-ter">date posted</th>
-                    <!-- <th class="has-text-white-ter">comment id</th> -->
-                    <th class="has-text-white-ter"></th>
+                <thead>
+                    <tr class="has-background-grey-dark">
+                        <th class="has-text-white-ter">comment</th>
+                        <th class="has-text-white-ter">post</th>
+                        <th class="has-text-white-ter">date posted</th>
+                        <!-- <th class="has-text-white-ter">comment id</th> -->
+                        <th class="has-text-white-ter"></th>
 
-                </tr>
-            </thead>
-            {% for comment in comments %}
-            <tbody>
-                <tr>
-                    <td>{{ comment.content }}</td>
-                    <td><a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title }}</a></td>
-                    <td>{{ comment.date_posted|date:'d-M-Y g:ia' }}</td>
-                    <!-- <td>{{ comment.id }}</td> -->
-                    <td><a class="button flex is-danger is-outlined is-small" href="">delete
-                            comment</a></td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+                    </tr>
+                </thead>
+                {% for comment in comments %}
+                <tbody>
+                    <tr>
+                        <td>{{ comment.content }}</td>
+                        <td><a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title }}</a></td>
+                        <td>{{ comment.date_posted|date:'d-M-Y g:ia' }}</td>
+                        <!-- <td>{{ comment.id }}</td> -->
 
 
-</section>
+                        <!-- slug and int pk -->
+                        <td><a class="button flex is-danger is-outlined is-small"
+                                href="{% url 'delete_comment' comment.id%}">delete
+                                comment</a></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+
+    </section>
+</div>
 {% endblock content %}

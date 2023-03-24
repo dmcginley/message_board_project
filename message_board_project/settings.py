@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'taggit',
     'crispy_forms',
     "crispy_bulma",
-    # 'django_quill',
+    'django_quill',
 ]
 
 MIDDLEWARE = [
@@ -210,10 +210,11 @@ QUILL_CONFIGS = {
             'toolbar': [
                 [
                     {'header': []},
-                    'bold', 'italic', 'underline',
-
-                    'blockquote', 'code-block',
+                    'bold', 'italic', 'underline', 'strike',
+                    {'list': 'ordered'}, {'list': 'bullet'},
+                    # 'blockquote', 'code-block',
                     {'color': []},
+                    {'background': []},
                 ],
                 ['image', 'link'],
                 ['clean'],

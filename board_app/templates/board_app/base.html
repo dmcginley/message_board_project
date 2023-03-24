@@ -30,6 +30,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.7/tagify.css"
             integrity="sha384-mLC9EnPqzsBUyprw87adQ14RNqoYROT6hIxbRuGpHY0Le9ZVg2w0uayF3QEWyoAA" crossorigin="anonymous">
         <title>Blog {% block title %}{% endblock %}</title>
+        {{ form.media }}
+
     </head>
 
     <body class="main-grid">
@@ -59,7 +61,6 @@
         </div>
 
         <!-- script -->
-
         {% include 'includes/navbar_toast_scripts.html' %}
 
         <!-- jQuery tag -->

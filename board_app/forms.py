@@ -10,6 +10,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class PostForm(forms.ModelForm):
+    # content = forms.CharField(widget=CKEditorWidget())
+    content = QuillFormField()
+
     class Meta:
         model = Post
         fields = ['title',
