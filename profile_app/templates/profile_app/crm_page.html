@@ -44,6 +44,8 @@
         </div>
     </div>
 
+
+
     <div class="cms-sub-grid">
         <div>
 
@@ -136,11 +138,14 @@
             <h3 class="subtitle is-3 mt-6">Rooms</h3>
             {% for category in categories %}
             <a href="/room/{{category.slug}}">
-                <div class="card mb-4 has-background-info-light has-text-info-dark">
+                <div class="card mb-4 has-text-info-dark">
                     <div class="card-content flex">
                         <div class="content">
                             <p>{{category.name}}</p>
                         </div>
+                        <!-- <div>
+                            <p>{{ posts.count }}</p>
+                        </div> -->
                     </div>
                 </div>
             </a>
@@ -160,11 +165,37 @@
                     </div>
                 </div>
             </a>
-
+            <!-- <button type="button" class="subtitle has-text-link is-6 js-modal-trigger" data-target="modal-js-example"
+                hx-get="{% url 'add_category' %}" hx-target="#modal-body" hx-trigger="click">
+                <div class="card mb-4 has-background-warning has-text-link-dark">
+                    <div class="card-content">
+                        <div class="content flex-center">
+                            <span>Create new room</span>
+                            <svg class="room-plus-svg ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M11 11V7h2v4h4v2h-4v4h-2v-4H7v-2h4zm1 11C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </button> -->
         </aside>
-
     </div>
 
+    <!-- modal -->
+    <div id="modal-js-example" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box" id="modal-body">
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
+    <!-- script -->
+    {% include 'includes/modal_bulma_script.html' %}
 
 
     {% endblock content %}

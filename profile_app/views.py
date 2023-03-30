@@ -3,11 +3,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Count
 from django.urls import reverse
+from django.http import JsonResponse
 
-from django.http import HttpResponseRedirect
+
+from django.http import HttpResponseRedirect, HttpResponse
 
 # from django.contrib import messages
-from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic import (
+    ListView, DetailView,
+    DeleteView, CreateView,
+)
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
@@ -95,6 +100,14 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class CrmListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
+    # model = None  # Set to None to allow for multiple models
+
+    # def get_queryset(self):
+    #     return {
+    #         'user': User.objects.all(),
+    #         'category': Category.objects.all(),
+    #     }
+
     template_name = 'profile_app/crm_page.html'
     ordering = ('-date_joined',)  # or 'last_login'
     context_object_name = 'users'
@@ -103,6 +116,9 @@ class CrmListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         return self.request.user.is_superuser
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context.update(self.get_queryset())
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts'] = Post.objects.all
@@ -134,3 +150,30 @@ class CrmUserView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     #     qs = qs.filter(author=self.object)
     #     return qs
     # context_object_name = 'users'
+
+
+def modal_content(request):
+    return render(request, 'profile_app/modal_content.html')
+
+
+class ModalCategoryCreateView(CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'profile_app/add_category.html'
+    success_url = reverse_lazy('crm')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def form_valid(self, form):
+        if Category.objects.filter(name=form.cleaned_data['name']).exists():
+            messages.error(
+                self.request, 'Room already exists.')
+            return self.form_invalid(form)
+            # return HttpResponse(status=204)
+
+        else:
+            messages.success(
+                self.request, 'Room created.')
+
+            return super().form_valid(form)

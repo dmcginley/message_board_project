@@ -7,12 +7,14 @@ from profile_app .views import (
     ProfileListView,
     CrmListView,
     CrmUserView,
-    UserDeleteView
+    UserDeleteView,
+    ModalCategoryCreateView,
 )
 
 from board_app .views import (
     CategoryCreateView,
     CategoryDeleteView,
+
 )
 
 
@@ -27,4 +29,9 @@ urlpatterns = [
          name='create_category'),
     path('room/<slug:slug>/delete/', CategoryDeleteView.as_view(),
          name='delete_category'),
+    path('modal_content', views.modal_content, name='modal_content'),
+
+    path('add/category', ModalCategoryCreateView.as_view(),
+         name='add_category'),
+
 ]

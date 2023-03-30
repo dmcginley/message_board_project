@@ -370,9 +370,30 @@ class TagListView(ListView):
         return context
 
 
+class ModalCategoryCreateView(CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'board_app/add_category.html'
+    success_url = reverse_lazy('crm')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def form_valid(self, form):
+        if Category.objects.filter(name=form.cleaned_data['name']).exists():
+            messages.error(self.request, 'Room already exists.')
+            return self.form_invalid(form)
+
+        else:
+            messages.success(
+                self.request, 'Room created.')
+
+            return super().form_valid(form)
+
 # --------------------------------
 #   error views: 400, 403, 404, & 500
 # --------------------------------
+
 
 def bad_request(request, *args, **argv):
     return render(request, 'board_app/error400.html', status=400)

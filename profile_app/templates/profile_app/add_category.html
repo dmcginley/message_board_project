@@ -1,0 +1,5 @@
+<form hx-post="{{ request.path }}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="button is-success mt-2" type="submit">Create</button>
+</form>

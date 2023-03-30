@@ -65,6 +65,9 @@ tbody img {
     padding: 0;
 }
 
+.modal {
+    z-index: 200;
+}
 
 .admin-table-row:hover {
     background-color: #f8e0e5 !important;
@@ -94,7 +97,7 @@ tbody img {
 }
 
 .crm .stats-card {
-    min-height: 140px;
+    /* min-height: 140px; */
 }
 
 .button-disabled {
@@ -433,4 +436,13 @@ p img {
     .toast-container {
         width: clamp(200px, 60%, 500px);
     }
+}
+
+
+@media only screen and (min-width: 768px) {
+
+    .crm .stats-card {
+        min-height: 140px;
+    }
+
 }
