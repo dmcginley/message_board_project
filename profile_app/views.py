@@ -19,11 +19,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib import messages
 
-
 from board_app.models import Post, Comment, Category
 # from urllib import request
 # from django.urls import reverse
-
 
 from django.contrib.auth.models import User
 # from profile_app.models import Profile
@@ -144,12 +142,6 @@ class CrmUserView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context['comments'] = Comment.objects.filter(author=self.object)
 
         return context
-
-    # def get_queryset(self):
-    #     qs = super().get_queryset()
-    #     qs = qs.filter(author=self.object)
-    #     return qs
-    # context_object_name = 'users'
 
 
 def modal_content(request):

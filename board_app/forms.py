@@ -9,39 +9,55 @@ from .models import Post, Comment, Category
 from django.contrib.auth.forms import UserCreationForm
 
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout
+from django import forms
+from crispy_bulma.layout import UploadField
+from crispy_bulma.forms import ImageField
+
+
 class PostForm(forms.ModelForm):
-    # content = forms.CharField(widget=CKEditorWidget())
-    content = QuillFormField()
+    # content = QuillFormField()
 
     class Meta:
         model = Post
-        fields = ['title',
-                  'subtitle', 'category', 'content', 'status', 'tags']
+        fields = ['category', 'title', 'image',
+                  'content', 'status', 'tags']
 
-        labels = {
-            "title":  "title",
-            "subtitle": "subtitle",
-            "category": "category",
-            "status": "status",
-            "tags": "tags",
-        }
-
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['input'].widget.attrs.update({'class': 'input'})
-        # Widgets = {
-        #     'category': forms.Select(attrs={'class': 'button'}),
+        # labels = {
+        #     "title":  "title",
+        #     "image":  "image",
+        #     "category": "room",
+        #     "status": "status",
+        #     "tags": "tags",
         # }
 
-        # def clean_tags(self):
-        #     """
-        #     Force all tags to lowercase.
-        #     """
-        #     tags = self.cleaned_data.get('tags', None)
-        #     if tags:
-        #         tags = [t.lower() for t in tags]
+        # def __init__(self, *args, **kwargs):
+        #     super().__init__(*args, **kwargs)
+        # self.helper = FormHelper()
 
-        #     return tags
+        # self.helper.layout = Layout(
+        #     UploadField("image"),
+        #     # UploadField("my_file"),
+        # )
+    # my_file = FileField(
+    #     label="Upload your actual dog in .dog format",
+    #     required=True
+    # )
+
+    # Widgets = {
+    #     'category': forms.Select(attrs={'class': 'button'}),
+    # }
+
+    # def clean_tags(self):
+    #     """
+    #     Force all tags to lowercase.
+    #     """
+    #     tags = self.cleaned_data.get('tags', None)
+    #     if tags:
+    #         tags = [t.lower() for t in tags]
+
+    #     return tags
 
 
 class CommentForm(forms.ModelForm):

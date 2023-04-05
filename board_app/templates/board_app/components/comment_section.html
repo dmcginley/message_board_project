@@ -6,20 +6,42 @@
     {% endif %}
 
     {% for comment in post.comments.all %}
-    <div class="pb-5">
-        <p>{{ comment.content.html|safe }}</p>
-        {% if object.author == user %}
-        <div class="post-edit-container pt-4 pb-1">
-            <a class="button is-small is-danger is-outlined"
-                href="{% url 'delete_comment' post.slug  comment.id%}">Delete
-                comment</a>
+    <div class="columns  pb-6">
+
+        <div class="column is-narrow">
+            <figure class="image container is-48x48 ml-0">
+                <img class="is-rounded" src="{{ post.author.profile.image.url }}" height="60" alt="">
+            </figure>
         </div>
-        {% endif %}
-        <div class="post-footer mt-2">
-            <p>[Author] {{ comment.author }}</p>
-            <p>{{ comment.date_posted|date:'d-M-Y g:ia' }}</p>
+
+        <div class="column is-10">
+            <p>{{ comment.content.html|safe }}</p>
+            {% if object.author == user %}
+            <div class="post-edit-container pt-4 pb-1">
+                <a class="button is-small is-danger is-outlined"
+                    href="{% url 'delete_comment' post.slug  comment.id%}">Delete
+                    comment</a>
+            </div>
+            {% endif %}
+            <div class="post-footer mt-2">
+                <p>[Author] {{ comment.author }}</p>
+                <p>{{ comment.date_posted|date:'d-M-Y g:ia' }}</p>
+            </div>
         </div>
+
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
     {% endfor %}
 
     {# pagination #}

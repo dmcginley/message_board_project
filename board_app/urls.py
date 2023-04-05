@@ -12,7 +12,7 @@ from .views import (
     TagListView,
     PostSearchView,
     #     LikePostView,
-    # LikePostToggleView,
+    #     LikePostToggleView,
 )
 
 
@@ -24,9 +24,9 @@ urlpatterns = [
          name='category_snap'),
     path('search/', PostSearchView.as_view(), name='search'),
     path('post/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
-    # path('post/<slug:slug>/like', LikePostView.as_view(), name='like_post'),
+    #     path('post/<slug:slug>/like', LikePostView.as_view(), name='like_post'),
     #     path('api/post/like', LikePostView.as_view(), name='api_like_post'),
-    #     post
+    #    post
     path('add-post/', PostCreateView.as_view(), name='add_post'),
     path('edit-post/<slug:slug>/', PostUpdateView.as_view(), name='edit_post'),
     path('delete-post/<slug:slug>/', PostDeleteView.as_view(),

@@ -44,8 +44,6 @@ CSRF_TRUSTED_ORIGINS = ["https://*.railway.app", "https://127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    'board_app.apps.BoardAppConfig',
-    'profile_app.apps.ProfileAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,9 +52,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'django.contrib.sites',
+    'profile_app.apps.ProfileAppConfig',
+    'board_app.apps.BoardAppConfig',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    'allauth.socialaccount.providers.google',
+
     'taggit',
     'crispy_forms',
     "crispy_bulma",
@@ -86,10 +89,10 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'board_app.views.categories',
+                'django.template.context_processors.request',
             ],
 
             "builtins": [
@@ -116,12 +119,42 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+
+
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        # 'APP': {
+        #     'client_id': os.environ.get("GOOGLE_CLIENT_ID"),
+        #     'secret': os.environ.get("GOOGLE_SECRET"),
+        #     'key': ''
+        # }
+        'APP': {
+            'client_id': '586888892013-hlmojbfpq9olk38qrdlopcc8mabgsbpg.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
+
+
+# google keys
+# Client ID
+# 586888892013-hlmojbfpq9olk38qrdlopcc8mabgsbpg.apps.googleusercontent.com
+# Client secret
+# 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
+
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
 ACCOUNT_USERNAME_MIN_LENGTH = 3
-LOGIN_URL = "/accounts/login/"
+# LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 
 
@@ -190,7 +223,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-SITE_ID = 1
+SITE_ID = 2
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

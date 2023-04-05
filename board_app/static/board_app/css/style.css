@@ -44,6 +44,16 @@ body {
 }
 
 
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(60px, 70ch) 1fr;
+}
+
+.form-grid * {
+    grid-column: 2;
+}
+
 .navbar {
     z-index: 100;
 }
@@ -113,7 +123,14 @@ tbody img {
 .aside {
     grid-column: 2;
     /* background-color: #818ec7; */
+    /* max-width: 400px; */
 
+}
+
+.aside-image {
+    max-height: 240px;
+    object-fit: cover;
+    /* margin: auto; */
 }
 
 .crm {
@@ -140,9 +157,8 @@ tbody img {
     transition: 160ms;
 }
 
-.room-hero:hover,
-{
-background-color: #e7e9f1 !important;
+.room-hero:hover {
+    background-color: #e7e9f1 !important;
 }
 
 h2 {
@@ -156,32 +172,20 @@ h2 {
     /* margin: 1em 0; */
 }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr minmax(60px, 70ch) 1fr;
-}
-
-.form-grid * {
-    grid-column: 2;
-}
-
 label {
     text-transform: capitalize !important;
 }
 
 button {}
 
-#id_image::before {
-    content: 'a';
-    background-color: #be3434;
-    z-index: 100;
-    /* cursor: pointer; */
-}
+/* #id_image {
+    display: none;
+} */
 
-#id_image {
+/* #id_image {
     background-color: #c5c5c5;
     padding: .4rem;
-}
+} */
 
 /* ---------------------------------------------------------------------- */
 /* typeface */
@@ -226,8 +230,22 @@ input #id_tags {
     background-color: #3969c4;
 }
 
+
+
+
 /* ---------------------------------------------------------------------- */
-/* the post-footer */
+/*   post */
+/* ---------------------------------------------------------------------- */
+
+
+.post-image {
+    max-height: 400px;
+    object-fit: cover;
+    object-position: 50% 10%;
+}
+
+/* ---------------------------------------------------------------------- */
+/*   the post-footer */
 /* ---------------------------------------------------------------------- */
 .post-footer {
     display: flex;
@@ -327,7 +345,9 @@ input #id_tags {
     .sub-grid {
         grid-column: 2;
         display: grid;
-        grid-template-columns: 2fr 1fr;
+        /* grid-template-columns: 2fr 30%; */
+        grid-template-columns: 3fr 1.4fr;
+
         /* background-color: #be8787; */
         /* padding: 1em; */
 

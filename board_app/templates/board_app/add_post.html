@@ -1,15 +1,19 @@
 {% extends 'board_app/base.html' %}
 {% block title %} - Post{% endblock %}
+{{ form.media }}
 
 
 {% block content %}
 <div class="crm columns">
     <section class="section column is-8 is-offset-2">
         <h2 class="subtitle is-2">Create an Article</h2>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form|crispy }}
-            <button type="submit" class="button is-success mt-2">Post your Article</button>
+            <fieldset class="form-group">
+
+                {{ form|crispy }}
+                <button type="submit" class="button is-success mt-2">Post your Article</button>
+            </fieldset>
         </form>
     </section>
 </div>
@@ -20,5 +24,7 @@
         // init Tagify script on the above inputs
         tagify = new Tagify(input, {
         });
+
+
 </script>
 {% endblock content %}

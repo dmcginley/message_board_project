@@ -27,6 +27,8 @@ from django.views import generic
 
 
 from .models import Post, Comment, Category
+from profile_app .models import Profile
+
 from django.views.generic import (
     ListView, CreateView,
     UpdateView,
@@ -84,9 +86,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = PostForm
     template_name = 'board_app/edit_post.html'
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.author = self.request.user
+    #     return super().form_valid(form)
 
     def test_func(self):
         post = self.get_object()
@@ -196,15 +198,15 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 #             return reverse('post_detail', kwargs={'slug': slug})
 
 
-# --------------------------------
+# -------------------------------------------------------------------------
 #   category views
-# --------------------------------
+# -------------------------------------------------------------------------
 
-# category_options = Category.objects.all().values_list('name', 'name')
-# category_list = []
+category_options = Category.objects.all().values_list('name', 'name')
+category_list = []
 
-# for item in category_options:
-#     category_list.append(item)
+for item in category_options:
+    category_list.append(item)
 
 
 def categories(request):
@@ -282,10 +284,11 @@ class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         messages.success(self.request, f'Room {self.kwargs["slug"]} deleted.')
 
         return super().form_valid(form)
-# --------------------------------
-#   comment views
-# --------------------------------
 
+
+# -------------------------------------------------------------------------
+#   comment views
+# -------------------------------------------------------------------------
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
@@ -324,11 +327,10 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # return reverse('post_detail', kwargs={'slug': self.object.post.slug})
         return reverse('post_detail', kwargs={'slug': self.object.post.slug})
 
-# --------------------------------
+
+# -------------------------------------------------------------------------
 #   search views
-# --------------------------------
-
-
+# -------------------------------------------------------------------------
 class PostSearchView(ListView):
     model = Post
     # min_length = 3
@@ -344,10 +346,9 @@ class PostSearchView(ListView):
         return Post.objects.all()
 
 
-# --------------------------------
+# -------------------------------------------------------------------------
 #   tag views
-# --------------------------------
-
+# -------------------------------------------------------------------------
 class TagListView(ListView):
     model = Post
     paginate_by = 2
@@ -390,10 +391,10 @@ class ModalCategoryCreateView(CreateView):
 
             return super().form_valid(form)
 
-# --------------------------------
-#   error views: 400, 403, 404, & 500
-# --------------------------------
 
+# -------------------------------------------------------------------------
+#   error views: 400, 403, 404, & 500
+# -------------------------------------------------------------------------
 
 def bad_request(request, *args, **argv):
     return render(request, 'board_app/error400.html', status=400)

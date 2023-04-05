@@ -35,16 +35,16 @@ class Post(models.Model):
         ("draft", "Draft"),
         ("published", "Published"),
     )
+
     category_options = Category.objects.all().values_list('name', 'name')
-    # category_options.sorted()
+    # # # category_options.sorted()
     category_list = []
 
     for item in category_options:
         category_list.append(item)
 
     title = models.CharField(max_length=100)
-    subtitle = models.CharField(max_length=100)
-
+    image = models.ImageField(null=True, blank=True, upload_to='post_pics')
     content = QuillField(null=True)
     # content = models.TextField(null=True)
 
@@ -53,9 +53,11 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="post_author")
     status = models.CharField(max_length=10, choices=options, default="draft")
+    # category = models.CharField(max_length=100, blank=True,)
     category = models.CharField(
         Category, max_length=100, choices=category_list,
         default='general')
+
     like = models.ManyToManyField(User, related_name="posts")
     tags = TaggableManager()
 
