@@ -21,8 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-)hd67+*je$1!=-9cs_+2soj5bj%+rzko2(ugo@ml(sm18+-0)@'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'django-insecure-)hd67+*je$1!=-9cs_+2soj5bj%+rzko2(ugo@ml(sm18+-0)@'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
 
     'taggit',
     'crispy_forms',
@@ -122,25 +123,18 @@ AUTHENTICATION_BACKENDS = [
 
 
 # Provider specific settings
-SOCIALACCOUNT_PROVIDERS = {
-
-
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        # 'APP': {
-        #     'client_id': os.environ.get("GOOGLE_CLIENT_ID"),
-        #     'secret': os.environ.get("GOOGLE_SECRET"),
-        #     'key': ''
-        # }
-        'APP': {
-            'client_id': '586888892013-hlmojbfpq9olk38qrdlopcc8mabgsbpg.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        }
-    }
-}
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         },
+#         'OAUTH_PKCE_ENABLED': True,
+#     }
+# }
 
 
 # google keys
@@ -154,6 +148,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
 ACCOUNT_USERNAME_MIN_LENGTH = 3
+# ACCOUNT_USERNAME_REQUIRED = False        # Defaults to True
 # LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 
@@ -164,23 +159,23 @@ WSGI_APPLICATION = 'message_board_project.wsgi.application'
 # the Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DATABASE_NAME"),
-        "USER": os.environ.get("DATABASE_USER"),
-        "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
-        "HOST": os.environ.get("DATABASE_HOST"),
-        "PORT": os.environ.get("DATABASE_PORT"),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ.get("DATABASE_NAME"),
+#         "USER": os.environ.get("DATABASE_USER"),
+#         "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
+#         "HOST": os.environ.get("DATABASE_HOST"),
+#         "PORT": os.environ.get("DATABASE_PORT"),
+#     }
+# }
 
 
 # Password validation
@@ -258,11 +253,11 @@ QUILL_CONFIGS = {
 
 
 # for AWS and storages
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

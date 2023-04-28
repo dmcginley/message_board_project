@@ -12,17 +12,18 @@
   {% get_providers as socialaccount_providers %}
 
   {% if socialaccount_providers %}
-  <p class="is-size-6">{% blocktrans with site.name as site_name %}Please sign in with one
+  <p>Please sign in with one of your existing third party accounts.</p>
+  <!-- <p class="is-size-6">{% blocktrans with site.name as site_name %}Please sign in with one
     of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-    for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+    for a {{ site_name }} account and sign in below:{% endblocktrans %}</p> -->
 
-  <div class="socialaccount_ballot">
-
+  <div class="socialaccount_ballot my-5">
     <ul class="socialaccount_providers">
       {% include "socialaccount/snippets/provider_list.html" with process="login" %}
     </ul>
 
-    <div class="login-or">{% trans 'or' %}</div>
+    <div class="hr mt-6"></div>
+    <!-- <div class="login-or mt-2">{% trans 'or' %}</div> -->
 
 
   </div>
@@ -47,5 +48,7 @@
     <a class="button secondaryAction mt-4" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
     <button class="button is-success primaryAction mt-4" type="submit">{% trans "Sign In" %}</button>
   </form>
+  <p class="is-size-6 has-text-grey mt-5">Need an account? <a class="is-underlined" href="{{ signup_url }}">Sign up</a>
+  </p>
 </section>
 {% endblock %}

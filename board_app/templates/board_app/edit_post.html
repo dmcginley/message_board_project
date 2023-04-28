@@ -1,13 +1,13 @@
 {% extends 'board_app/base.html' %}
-{{ form.media }}
 {% block title %} - Post{% endblock %}
+{{ form.media }}
 
 
 {% block content %}
 <div class="crm columns">
     <section class="section column is-8 is-offset-2">
         <h2 class="subtitle is-2">Edit Article</h2>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.media }}
             {{ form|crispy }}

@@ -6,6 +6,9 @@
         <a class="title-link mb-4" href="{{ post.get_absolute_url }}">
             <h2 class="subtitle is-2 article-title-link">{{ post.title }}</h2>
         </a>
+
+
+
         <div class="columns">
             {% if not post.image %}
             {% else %}
@@ -17,6 +20,10 @@
                 <p class="is-size-2">{{ post.content.html|safe|truncatechars:420 }}</p>
             </div>
         </div>
+
+
+
+
         <div class="post-footer mt-2 is-size-6">
             <p>[Author] {{ post.author }}</p>
             <p>{{ post.date_posted|date:'d-M-Y g:ia' }}</p>

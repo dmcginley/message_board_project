@@ -9,6 +9,8 @@
         <p class="has-text-grey">This action will <span class="has-text-weight-bold">Delete</span> all posts and
             comments in
             this room</p>
+           {% comment %} <h2 class="hashtag">{{ category.postnumber or somthind }}</strong></h2> {% endcomment %}
+
 
         <form class="mt-6" id="form" method="post">
             {% csrf_token %}

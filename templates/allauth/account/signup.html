@@ -9,8 +9,9 @@
 
   <h3 class="subtitle is-3">{% trans "Sign Up" %}</h3>
 
-  <p class="is-size-6">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign
-      in</a>.{% endblocktrans %}</p>
+  <!-- <p class="is-size-6">{% blocktrans %}Already have an account? Then please <a class="is-underlined"
+      href="{{ login_url }}">sign
+      in</a>.{% endblocktrans %}</p> -->
 
   <form class="signup mt-4" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
@@ -20,5 +21,8 @@
     {% endif %}
     <button class="button is-success mt-4" type="submit">{% trans "Sign Up" %} &raquo;</button>
   </form>
+  <p class="is-size-6 has-text-grey mt-5">{% blocktrans %}Already have an account? Then please <a class="is-underlined"
+      href="{{ login_url }}">sign
+      in</a>{% endblocktrans %}</p>
 </section>
 {% endblock %}

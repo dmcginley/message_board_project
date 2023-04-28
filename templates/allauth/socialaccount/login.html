@@ -5,19 +5,25 @@
 
 {% block content %}
 {% if process == "connect" %}
-<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+<section class="section form-centered">
 
-<p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from
-  {{ provider }}.{% endblocktrans %}</p>
-{% else %}
-<h1>{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
+  <h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
 
-<p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from
-  {{ provider }}.{% endblocktrans %}</p>
-{% endif %}
+  <p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from
+    {{ provider }}.{% endblocktrans %}
+  </p>
+  {% else %}
+  <h1>{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
 
-<form method="post">
-  {% csrf_token %}
-  <button class="button is-success" type="submit">{% trans "Continue" %}</button>
-</form>
+  <p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from
+    {{ provider }}.{% endblocktrans %}
+  </p>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <button class="button is-success mt-5" type="submit">{% trans "Continue" %}</button>
+  </form>
+
+</section>
 {% endblock %}

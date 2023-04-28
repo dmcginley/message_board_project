@@ -1,6 +1,6 @@
 {% extends 'board_app/base.html' %}
 {% block title %}- {{ post.title }}{% endblock %}
-
+{% load %}
 {% block content %}
 <main>
     <div class="mobile-searchbar">
@@ -11,11 +11,10 @@
             <div class="mb-4">
                 <h2 class="subtitle is-2">{{ post.title }}</h2>
             </div>
-
-            <div class="columns">
+            <div class="columns is-multiline">
                 {% if not post.image %}
                 {% else %}
-                <div class="column">
+                <div class="column is-6-tablet is-12-desktop is-6-widescreen">
                     <img src="{{ post.image.url }}" alt="">
                 </div>
                 {% endif %}
@@ -52,47 +51,64 @@
                                 comment{{ post.comments.count|pluralize }}
                             </p>
                         </a>
-                        <!-- heart icon link -->
-                        <a class="ml-4 pr-0" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-                                <path fill="none" d="M0 0H24V24H0z" />
-                                <path
-                                    d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"
-                                    fill="rgba(137,137,137,1)" />
-                            </svg>
-                            <p class="has-text-grey ml-1">{{ post.like.count }}
-                                like{{ post.like.count|pluralize }}
-                            </p>
-                        </a>
+                        <!-- {{ user.username }}
+                        {{ user.id }} -->
+
+
+                        {% if user.is_authenticated %}
+                        <div class="likes pl-2">
+                            <a href="#" hx-post="{% url 'like_post' post.slug %}"
+                                hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }'>
+                                <span class="likes-count has-text-grey">
+                                    {% if request.user in post.like.all %}
+
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
+                                            height="20">
+                                            <path
+                                                d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853Z"
+                                                fill="rgba(207,32,32,1)"></path>
+                                        </svg>
+                                    </span>
+                                    <img src="../../static/board_app/" alt="">
+
+                                    {{ post.like.count }} unlike
+                                    {% else %}
+
+                                    <img src="" alt="">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
+                                            height="20">
+                                            <path
+                                                d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853Z"
+                                                fill="rgba(137,137,137,1)"></path>
+                                        </svg>
+                                    </span>
+
+                                    {{ post.like.count }} like
+                                    {% endif %}
+                                </span>
+                            </a>
+                        </div>
+                        {% endif %}
+
+
                     </div>
                 </div>
-                <span class="pl-4">
-                    {% for tag in post.tags.all %}
-                    <a class="has-text-weight-bold" href="{% url 'tag_post_page' tag.slug %}">
-                        <p>#{{ tag.name }}</p>
-                    </a>
-                    {% endfor %}
-                </span>
-
-                {% comment %}
-                <!-- <form action="{% url 'like_post' post.slug %}" method="POST">
-                    {% csrf_token %}
-                    <button class="button is-small" type="submit" name="post_id" , value="{{ post.id }}">like</button>
-
-                    <button class=" button is-small" type="submit" name="post_id" , value="{{ post.id }}"
-                        hx-post="{% url 'like_post' post.slug  %}" hx-trigger="keyup"
-                        hx-target="like-counter">like</button>
-                    <span class="pl-2"> {{ post.like.count }}</span>
-                </form> -->
-                {% endcomment %}
-
             </div>
-            <div class="hr mt-5"></div>
-
-            <a class="button is-success mt-5" href="{% url 'add_comment' post.pk %}">
-                add a comment
-            </a>
+            <span class="pl-4">
+                {% for tag in post.tags.all %}
+                <a class="has-text-weight-bold" href="{% url 'tag_post_page' tag.slug %}">
+                    <p>#{{ tag.name }}</p>
+                </a>
+                {% endfor %}
+            </span>
         </div>
+        <div class="hr mt-5"></div>
+
+        <a class="button is-success mt-5" href="{% url 'add_comment' post.pk %}">
+            add a comment
+        </a>
         <div class="comment-container mt-4">
             {% include 'board_app/components/comment_section.html' %}
         </div>

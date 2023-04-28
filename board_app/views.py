@@ -1,5 +1,6 @@
 # from django.shortcuts import render
 
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 # from rest_framework import authentication, permissions
 # from rest_framework.response import Response
@@ -11,6 +12,10 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
 from django.contrib import messages
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 
 # from django.contrib import messages
@@ -118,90 +123,108 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         messages.success(self.request, 'Post deleted.')
         return super().form_valid(form)
 
+
 # TODO: not working,
 # --------------------------------
 #   like post views
 # --------------------------------
 
 
-# def like_post(self, request, slug):
-#     slug = self.kwargs.get("slug")
-#     post = get_object_or_404(Post, slug=request.POST.get('post.slug'))
-#     post.like.add(request.user)
+#         return JsonResponse()
 
-#     return HttpResponseRedirect(reverse('post_detail', kwargs={'slug': slug}))
+@login_required
+@require_POST
+def like_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    likes_count = post.like.count()
+    likes = post.like.all()
+    if request.user in likes:
+        post.like.remove(request.user)
+        likes_count = likes.count() - 1
 
-# class LikePostView(RedirectView):
-#     # model = Post
-#     # template_name = 'board_app/delete_post.html'
+        return HttpResponse(
+            f'<span class="likes-count has-text-grey ml-1">{likes_count} like</span>'
+        )
+    else:
+        post.like.add(request.user)
+        likes_count = likes.count() + 1
 
-#     def get_redirect_url(self, *args, **kwargs):
-#         slug = self.kwargs.get("slug")
-#         print(slug)
-#         obj = get_object_or_404(Post, slug=slug)
-#         url_ = obj.get_absolute_url()
-#         user = self.request.user
-#         if user.is_authenticated:
-#             if user in obj.like.all():
-#                 obj.like.remove(user)
-#             else:
-#                 obj.like.add(user)
-#             obj.save()
+        return HttpResponse(f'<span class="likes-count has-text-grey ml-1"> {likes_count} unlike </span >')
 
-#             return url_
-# return reverse('post_detail', kwargs={'slug': slug})
-
-
-# class LikePostView(APIView):
-#     authentication_classes = (authentication.SessionAuthentication,)
-#     permission_classes = (permissions.IsAuthenticated,)
-
-#     def get(self, request, slug=None, format=None):
-#         slug = self.kwargs.get("slug")
-#         obj = get_object_or_404(Post, slug=slug)
-#         url_ = obj.get_absolute_url()
-#         user = self.request.user
-#         updated = False
-#         liked = False
-#         if user.is_authenticated():
-#             if user in obj.likes.all():
-#                 liked = False
-#                 obj.likes.remove(user)
-#             else:
-#                 liked = True
-#                 obj.likes.add(user)
-#             updated = True
-#         data = {
-#             "updated": updated,
-#             "liked": liked
-#         }
-#         return Response(data)
-
-
-# class LikePostView(RedirectView):
-#     model = Post
-
-#     def get_redirect_url(self, *args, **kwargs):
-#         slug = self.kwargs.get("slug")
-#         print(slug)
-#         obj = get_object_or_404(Post, slug=slug)
-#         # url_ = obj.get_absolute_url()
-#         user = self.request.user
-#         if user.is_authenticated:
-#             if user in obj.like.all():
-#                 obj.like.remove(user)
-#             else:
-#                 obj.like.add(user)
-#             obj.save()
-
-#             # return url_
-#             return reverse('post_detail', kwargs={'slug': slug})
-
-
-# -------------------------------------------------------------------------
-#   category views
-# -------------------------------------------------------------------------
-
+    #     # return redirect('/')
+    # # post.like.add(request.user)
+    #     return HttpResponseRedirect(reverse('post_detail', slug=slug))
+    # if request.user.is_authenticated:
+    #     post = get_object_or_404(Post, slug=slug)
+    #     if post.like.filter(id=request.user.id):
+    #         post.like.remove(request.user)
+    #     else:
+    #         post.like.add(request.user)
+    #     return HttpResponseRedirect(reverse('post_detail', slug=slug))
+    # else:
+    #     return HttpResponse('You need to be logged in to like a post.')
+    # if request.method == 'POST':
+    #     # Perform like action
+    #     return JsonResponse({'status': 'liked'})
+    # class LikePostView(RedirectView):
+    #     # model = Post
+    #     # template_name = 'board_app/delete_post.html'
+    #     def get_redirect_url(self, *args, **kwargs):
+    #         slug = self.kwargs.get("slug")
+    #         print(slug)
+    #         obj = get_object_or_404(Post, slug=slug)
+    #         url_ = obj.get_absolute_url()
+    #         user = self.request.user
+    #         if user.is_authenticated:
+    #             if user in obj.like.all():
+    #                 obj.like.remove(user)
+    #             else:
+    #                 obj.like.add(user)
+    #             obj.save()
+    #             return url_
+    # return reverse('post_detail', kwargs={'slug': slug})
+    # class LikePostView(APIView):
+    #     authentication_classes = (authentication.SessionAuthentication,)
+    #     permission_classes = (permissions.IsAuthenticated,)
+    #     def get(self, request, slug=None, format=None):
+    #         slug = self.kwargs.get("slug")
+    #         obj = get_object_or_404(Post, slug=slug)
+    #         url_ = obj.get_absolute_url()
+    #         user = self.request.user
+    #         updated = False
+    #         liked = False
+    #         if user.is_authenticated():
+    #             if user in obj.likes.all():
+    #                 liked = False
+    #                 obj.likes.remove(user)
+    #             else:
+    #                 liked = True
+    #                 obj.likes.add(user)
+    #             updated = True
+    #         data = {
+    #             "updated": updated,
+    #             "liked": liked
+    #         }
+    #         return Response(data)
+    # class LikePostView(RedirectView):
+    #     model = Post
+    #     def get_redirect_url(self, *args, **kwargs):
+    #         slug = self.kwargs.get("slug")
+    #         print(slug)
+    #         obj = get_object_or_404(Post, slug=slug)
+    #         # url_ = obj.get_absolute_url()
+    #         user = self.request.user
+    #         if user.is_authenticated:
+    #             if user in obj.like.all():
+    #                 obj.like.remove(user)
+    #             else:
+    #                 obj.like.add(user)
+    #             obj.save()
+    #             # return url_
+    #             return reverse('post_detail', kwargs={'slug': slug})
+    # -------------------------------------------------------------------------
+    #   category views
+    # -------------------------------------------------------------------------
 category_options = Category.objects.all().values_list('name', 'name')
 category_list = []
 
@@ -359,11 +382,6 @@ class TagListView(ListView):
 
     def get_queryset(self):
         return Post.objects.filter(tags__slug__in=[self.kwargs["tag"]])
-
-    # def get_template_names(self):
-    #     # if self.request.htmx:
-    #     #     return 'blog_app/components/post_list_elements_tag.html'
-    #     # return 'board_app/tag_page.html'
 
     def get_context_data(self, **kwargs):
         context = super(TagListView, self).get_context_data(**kwargs)

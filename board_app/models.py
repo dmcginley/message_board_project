@@ -58,7 +58,7 @@ class Post(models.Model):
         Category, max_length=100, choices=category_list,
         default='general')
 
-    like = models.ManyToManyField(User, related_name="posts")
+    like = models.ManyToManyField(User, related_name="posts", blank=True)
     tags = TaggableManager()
 
     class Meta:
