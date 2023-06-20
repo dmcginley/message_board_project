@@ -225,11 +225,11 @@ def like_post(request, slug):
     # -------------------------------------------------------------------------
     #   category views
     # -------------------------------------------------------------------------
-category_options = Category.objects.all().values_list('name', 'name')
-category_list = []
+# category_options = Category.objects.all().values_list('name', 'name')
+# category_list = []
 
-for item in category_options:
-    category_list.append(item)
+# for item in category_options:
+#     category_list.append(item)
 
 
 def categories(request):

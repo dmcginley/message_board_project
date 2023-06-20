@@ -9,10 +9,10 @@
 
 
 
-        <div class="columns">
+        <div class="columns is-multiline">
             {% if not post.image %}
             {% else %}
-            <div class="column">
+            <div class="column is-12-desktop is-6-widescreen">
                 <img class="post-image" src="{{ post.image.url }}" alt="">
             </div>
             {% endif %}
@@ -30,6 +30,12 @@
         </div>
         <div class="post-footer mt-2 flex is-size-6">
             <div>
+                {% for tag in post.tags.all %}
+                <a class="pb-2 has-background-info-light" href="{% url 'tag_post_page' tag.slug %}">
+                    <p>#{{ tag.name }}</p>
+                </a>
+                {% endfor %}
+                <!-- <div class="hr mt-5 is-12"></div> -->
                 <div class="flex">
                     <!-- comment icon link -->
                     <a class="pr-0" href="{% url 'add_comment' post.pk %}">
@@ -41,28 +47,25 @@
                         <p class="has-text-grey">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}
                         </p>
                     </a>
+                    {% comment %}
                     <!-- heart icon link -->
-                    <a class="ml-4 pr-0" href="#">
+                    <!-- <a class="ml-4 pr-0" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
                             <path fill="none" d="M0 0H24V24H0z" />
                             <path
                                 d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"
                                 fill="rgba(137,137,137,1)" />
                         </svg>
+
                         <p class="has-text-grey ml-1">{{ post.like.count }} like{{ post.like.count|pluralize }}
-                        </p>
-                    </a>
+                    </p>
+
+                    </a> -->
+                    {% endcomment %}
                 </div>
             </div>
-            <span class="pl-4">
-                {% for tag in post.tags.all %}
-                <a class="has-text-weight-bold" href="{% url 'tag_post_page' tag.slug %}">
-                    <p>#{{ tag.name }}</p>
-                </a>
-                {% endfor %}
-            </span>
+
         </div>
-        <div class="hr mt-5"></div>
     </div>
     {% endfor %}
     {# pagination #}

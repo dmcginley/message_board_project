@@ -53,7 +53,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="post_author")
     status = models.CharField(max_length=10, choices=options, default="draft")
-    # category = models.CharField(max_length=100, blank=True,)
+    # category = models.CharField(Category, max_length=100, blank=True,)
     category = models.CharField(
         Category, max_length=100, choices=category_list,
         default='general')

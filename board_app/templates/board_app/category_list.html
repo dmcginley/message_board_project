@@ -33,10 +33,10 @@
         <a class="title-link mb-4" href="{{ post.get_absolute_url }}">
             <h2 class="subtitle is-2 article-title-link">{{ post.title }}</h2>
         </a>
-        <div class="columns">
+        <div class="columns is-multiline">
             {% if not post.image %}
             {% else %}
-            <div class="column">
+            <div class="column is-12-desktop is-6-widescreen">
                 <img class="post-image" src="{{ post.image.url }}" alt="">
             </div>
             {% endif %}
@@ -62,6 +62,8 @@
                         </p>
                     </a>
                     <!-- heart icon link -->
+
+                    {% comment %}
                     <a class="ml-4 pr-0" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
                             <path fill="none" d="M0 0H24V24H0z" />
@@ -72,6 +74,8 @@
                         <p class="has-text-grey ml-1">{{ post.like.count }} like{{ post.like.count|pluralize }}
                         </p>
                     </a>
+                    {% endcomment %}
+
                 </div>
             </div>
             <span class="pl-4">

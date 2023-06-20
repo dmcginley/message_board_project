@@ -1,19 +1,35 @@
 <div class="section">
-    <h4 class="pb-0">Rooms</h4>
+    <div class="">
+        <button type="button"
+            class="button is-outlined is-info accordion__button accordion__button--active is-medium is-fullwidth"
+            aria-label="more options">
+            <span>Rooms</span>
+            <!-- <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;">
+                    <path d="M4 19h16v2H4zm0-4h11v2H4zm0-4h16v2H4zm0-8h16v2H4zm0 4h11v2H4z"></path>
+                </svg>
+            </span> -->
+        </button>
+        <div class="accordion__content is-fullwidth pt-2">
 
-    {% for category in categories %}
-    <a href="/room/{{category.slug}}" class="p-2">
-        <div class="p-4 room-hero">
-            <h3 class="subtitle is-3 hashtag mb-2">
-                {{ category.name|title }}
-            </h3>
-            <p class="subtitle">
-                The room to discuss everything {{ category.name|title }} related
-            </p>
-            {% include 'board_app/components/category_snip.html' %}
+            {% for category in categories %}
+            <a href="/room/{{category.slug}}" class="py-2">
+                <div class="p-2 room-hero">
+                    <h3 class="subtitle is-3 hashtag mb-2">
+                        {{ category.name|title }}
+                    </h3>
+                    <p class="subtitle">
+                        The room to discuss everything {{ category.name|title }} related
+                    </p>
+                    {% include 'board_app/components/category_snip.html' %}
+                </div>
+                {% endfor %}
+            </a>
+            <!-- <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> -->
         </div>
-        {% endfor %}
-    </a>
+    </div>
+
     <div class="section">
 
         {# pagination #}
@@ -50,3 +66,20 @@
             {% endif %}
         </div> -->
     </div>
+
+</div>
+
+<script>
+    //  controls the accordion (for rooms)
+    document.addEventListener('DOMContentLoaded', () => {
+
+        document.querySelectorAll('.accordion__button').forEach(button => {
+            button.addEventListener('click', () => {
+
+                button.classList.toggle('accordion__button--active');
+                //                console.log('click')
+            })
+        })
+
+    });
+</script>

@@ -15,6 +15,12 @@
     --link-color-hover: #4a4a4a;
 }
 
+
+.is-light {
+    background-color: var(--is-light) !important;
+}
+
+
 body,
 html {
     background-color: var(--is-light);
@@ -506,4 +512,23 @@ p img {
         min-height: 140px;
     }
 
+}
+
+
+/* ---------------------------------------------------------------- */
+
+.accordion__button {
+    display: block;
+}
+
+.accordion__content {
+    display: none;
+    overflow: auto;
+}
+.accordion__button--active {
+    color: #ffffff !important;
+    background-color: #3e8ed0 !important;
+}
+.accordion__button--active + .accordion__content {
+    display: block;
 }

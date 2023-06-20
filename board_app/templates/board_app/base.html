@@ -3,70 +3,74 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- htmx -->
-        <script src="https://unpkg.com/htmx.org@1.8.6"
-            integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx"
-            crossorigin="anonymous"></script>
+    <!-- htmx -->
+    <script src="https://unpkg.com/htmx.org@1.8.6"
+        integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx"
+        crossorigin="anonymous"></script>
 
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-        <!-- jQuery tag -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.7/jQuery.tagify.min.js"
-            integrity="sha384-ChBnWYns+QdYQmukhCcesOp7wgNTrRfc7WQQXeG54IyaurQ98fIpCi7LzzicBEHO"
-            crossorigin="anonymous"></script>
-        <!-- bulma cdn -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-            integrity="sha384-HmYpsz2Aa9Gh3JlkCoh8kUJ2mUKJKTnkyC2Lzt8aLzpPOpnDe8KpFE2xNiBpMDou" crossorigin="anonymous">
-        <!-- my css -->
-        <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/style.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/navbar.css' %}">
-        <!-- jQuery tag css -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.7/tagify.css"
-            integrity="sha384-mLC9EnPqzsBUyprw87adQ14RNqoYROT6hIxbRuGpHY0Le9ZVg2w0uayF3QEWyoAA" crossorigin="anonymous">
-        <title>Blog {% block title %}{% endblock %}</title>
-        {{ form.media }}
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <!-- jQuery tag -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.7/jQuery.tagify.min.js"
+        integrity="sha384-ChBnWYns+QdYQmukhCcesOp7wgNTrRfc7WQQXeG54IyaurQ98fIpCi7LzzicBEHO"
+        crossorigin="anonymous"></script>
+    <!-- bulma cdn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+        integrity="sha384-HmYpsz2Aa9Gh3JlkCoh8kUJ2mUKJKTnkyC2Lzt8aLzpPOpnDe8KpFE2xNiBpMDou" crossorigin="anonymous">
+    <!-- my css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'board_app/css/navbar.css' %}">
+    <!-- jQuery tag css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.7/tagify.css"
+        integrity="sha384-mLC9EnPqzsBUyprw87adQ14RNqoYROT6hIxbRuGpHY0Le9ZVg2w0uayF3QEWyoAA" crossorigin="anonymous">
 
-    </head>
 
-    <body class="main-grid">
-        {% if messages %}
-        <div class="message-container">
-            {% for message in messages %}
-            {% with message.level as level %}
-            {% if level == 50 %} {# cart #}
-            {% include 'includes/toast/cart_toast.html' %}
-            {% elif level == 40 %} {# warning #}
-            {% include 'includes/toast/warning.html' %}
-            {% elif level == 30 %} {# danger #}
-            {% include 'includes/toast/danger.html' %}
-            {% elif level == 25 %} {# success #}
-            {% include 'includes/toast/success.html' %}
-            {% else %}
-            {% include 'includes/toast/info.html' %}
-            {% endif %}
-            {% endwith %}
-            {% endfor %}
-        </div>
+    <link rel="stylesheet" type="text/css" href="{% static 'board_app/js/bulma-collapsible.min.js' %}">
+
+    <title>Blog {% block title %}{% endblock %}</title>
+    {{ form.media }}
+
+</head>
+
+<body class="main-grid">
+    {% if messages %}
+    <div class="message-container">
+        {% for message in messages %}
+        {% with message.level as level %}
+        {% if level == 50 %} {# cart #}
+        {% include 'includes/toast/cart_toast.html' %}
+        {% elif level == 40 %} {# warning #}
+        {% include 'includes/toast/warning.html' %}
+        {% elif level == 30 %} {# danger #}
+        {% include 'includes/toast/danger.html' %}
+        {% elif level == 25 %} {# success #}
+        {% include 'includes/toast/success.html' %}
+        {% else %}
+        {% include 'includes/toast/info.html' %}
         {% endif %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% endif %}
 
-        {% include 'board_app/components/navbar.html' %}
-        <div class="sub-grid">
-            {% block content %}{% endblock content %}
-        </div>
+    {% include 'board_app/components/navbar.html' %}
+    <div class="sub-grid">
+        {% block content %}{% endblock content %}
+    </div>
 
-        <!-- script -->
-        {% include 'includes/navbar_toast_scripts.html' %}
+    <!-- script -->
+    {% include 'includes/navbar_toast_scripts.html' %}
 
-        <!-- jQuery tag -->
-        <!-- <script>
+    <!-- jQuery tag -->
+    <!-- <script>
             $('[name=tags]').tagify();
         </script> -->
-    </body>
+</body>
 
 </html>

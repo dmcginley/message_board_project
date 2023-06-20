@@ -1,5 +1,7 @@
 <div class="section">
     {% for post in posts %}
+
+
     <div class="post-container post-container-index mb-6">
         <a class="title-link" href="{{ post.get_absolute_url }}">
             <h2 class="subtitle is-2 article-title-link">{{ post.title }}
@@ -9,6 +11,12 @@
                 </svg>
             </h2>
         </a>
+        {% if not post.image %}
+        {% else %}
+        <div class="my-4">
+            <img src="{{ post.image.url }}" alt="">
+        </div>
+        {% endif %}
         <p> {{ post.content.html|safe}}</p>
         <div class="post-footer">
             <p>[Author] {{ post.author }}</p>
